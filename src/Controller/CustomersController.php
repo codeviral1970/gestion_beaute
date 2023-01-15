@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Gedmo\Sluggable\Util\Urlizer;
 
 #[Route('/customers')]
 class CustomersController extends AbstractController
@@ -29,6 +30,7 @@ class CustomersController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $customersRepository->save($customer, true);
 
             return $this->redirectToRoute('app_customers_index', [], Response::HTTP_SEE_OTHER);
