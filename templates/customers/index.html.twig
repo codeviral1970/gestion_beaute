@@ -26,7 +26,9 @@
                 </td>
                 <td>{{ customer.email }}</td>
                 <td>{{ customer.phone }}</td>
-                <td>{{ customer.avatar }}</td>
+                <td>
+                <img src="{{ vich_uploader_asset(customer, 'imageFile') }}" alt="">
+                </td>
                 <td>
                     <a href="{{ path('app_customers_show', {'id': customer.id}) }}" class="btn btn-primary">voir</a>
                     <a href="{{ path('app_customers_edit', {'id': customer.id}) }}" class="btn btn-success">Editer</a>

@@ -38,7 +38,9 @@
             </tr>
             <tr>
                 <th>Avatar</th>
-                <td>{{ customer.avatar }}</td>
+                <td>
+                    <img src="{{ vich_uploader_asset(customer) }}" alt="">
+                </td>
             </tr>
         </tbody>
     </table>
