@@ -1,11 +1,5 @@
 {{ form_start(form, {'enctype' :"multipart/form-data"}) }}
     {{form_widget(form)}}
-    {# {{ form_row(form.firstName) }}
-    {{ form_row(form.lastName) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.phone) }}
-    {{ form_row(form.address) }}
-    {{ form_row(form.zipCode) }}
-    {{ form_row(form.imageField) }} #}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {# {{form_row(form.imageFile) | imagine_filter('avatar')}} #}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
