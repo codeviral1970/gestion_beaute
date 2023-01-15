@@ -39,7 +39,7 @@
             <tr>
                 <th>Avatar</th>
                 <td>
-                    <img src="{{ vich_uploader_asset(customer) }}" alt="">
+                    <img src="{{ vich_uploader_asset(customer) | imagine_filter('avatar') }}" alt="">
                 </td>
             </tr>
         </tbody>
