@@ -27,10 +27,10 @@
                 <td>{{ customer.email }}</td>
                 <td>{{ customer.phone }}</td>
                 <td>
-                {% if vich_uploader_asset(customer, 'imageFile') is null %}
-                <img src="/my/default/avatar.jpg" alt>
+                {% if vich_uploader_asset(customers, 'imageFile') is null %}
+                <img src="{{ vich_uploader_asset(customers, 'imageFile') | imagine_filter('avatar') }}" alt="">
                 {% else %}
-                <img src="{{ vich_uploader_asset(customer, 'imageFile') | imagine_filter('avatar') }}" alt="">
+                <img src="{{ vich_uploader_asset(customers, 'imageFile') | imagine_filter('avatar') }}" alt="">
                 {% endif %}
                 </td>
                 <td>
