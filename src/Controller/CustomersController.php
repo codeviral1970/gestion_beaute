@@ -14,7 +14,7 @@ use Gedmo\Sluggable\Util\Urlizer;
 #[Route('/customers')]
 class CustomersController extends AbstractController
 {
-    #[Route('/', name: 'app_customers_index', methods: ['GET'])]
+    #[Route('/customers', name: 'app_customers_index', methods: ['GET'])]
     public function index(CustomersRepository $customersRepository): Response
     {
         return $this->render('customers/index.html.twig', [

@@ -58,20 +58,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function __sleep()
-    {
-        $ref   = new \ReflectionClass(__CLASS__);
-        $props = $ref->getProperties(\ReflectionProperty::IS_PROTECTED);
-        
-        $serialize_fields = array();
-        
-        foreach ($props as $prop) {
-            $serialize_fields[] = $prop->name;
-	}
-	
-	return $serialize_fields;
-    }
-
     public function getId(): ?int
     {
         return $this->id;

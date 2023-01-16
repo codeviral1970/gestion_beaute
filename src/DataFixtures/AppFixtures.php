@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
-        for($i = 0; $i<20; $i++)
+        for($i = 0; $i<60; $i++)
         {
             $clients = new Customers();
 
@@ -44,8 +44,7 @@ class AppFixtures extends Fixture
                 ->setAddress($faker->streetAddress())
                 ->setZipCode($faker->postcode())
                 ->setEmail($faker->email())
-                ->setPhone($faker->phoneNumber())
-                
+                ->setPhone($faker->phoneNumber())    
             ;
 
             $manager->persist($clients);
