@@ -20,7 +20,9 @@
     <body class="d-flex flex-column min-vh-100">
         {% include "components/_header.html.twig" %}
         {% include "components/_aside.nav.html.twig" %}
+        <main id="main" class="main">
         {% block body %}{% endblock %}
+        </main>
         {% include "components/_footer.html.twig" %}
     </body>
 </html>
