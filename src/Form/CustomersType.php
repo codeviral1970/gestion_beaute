@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CustomersType extends AbstractType
 {
@@ -19,7 +20,7 @@ class CustomersType extends AbstractType
   {
     $builder
       ->add('firstName', TextType::class, [
-        'label' => 'Prénom',
+        'label' => false,
         'label_attr' => [
           'class' => 'col-md-4 col-lg-3 col-form-label'
         ],
@@ -28,7 +29,7 @@ class CustomersType extends AbstractType
         ],
       ])
       ->add('lastName',  TextType::class, [
-        'label' => 'Nom',
+        'label' => false,
         'label_attr' => [
           'class' => 'CUSTOM_LABEL_CLASS'
         ],
@@ -37,7 +38,7 @@ class CustomersType extends AbstractType
         ],
       ])
       ->add('address',  TextType::class, [
-        'label' => 'Adresse',
+        'label' => false,
         'label_attr' => [
           'class' => 'CUSTOM_LABEL_CLASS'
         ],
@@ -46,7 +47,7 @@ class CustomersType extends AbstractType
         ],
       ])
       ->add('zipCode',  TextType::class, [
-        'label' => 'Code postal',
+        'label' => false,
         'label_attr' => [
           'class' => 'CUSTOM_LABEL_CLASS'
         ],
@@ -55,7 +56,7 @@ class CustomersType extends AbstractType
         ],
       ])
       ->add('email',  EmailType::class, [
-        'label' => 'Email',
+        'label' => false,
         'label_attr' => [
           'class' => 'CUSTOM_LABEL_CLASS'
         ],
@@ -64,7 +65,7 @@ class CustomersType extends AbstractType
         ],
       ])
       ->add('phone',  TelType::class, [
-        'label' => 'Téléphone',
+        'label' => false,
         'label_attr' => [
           'class' => 'CUSTOM_LABEL_CLASS'
         ],
@@ -72,7 +73,17 @@ class CustomersType extends AbstractType
           'class' => 'form-control'
         ],
       ])
-      ->add('imageFile',VichImageType::class);
+      ->add('imageFile',VichImageType::class, [
+        'label' => 'Photo',
+      ])
+      ->add('submit', SubmitType::class, [
+        'label' => 'Mettre à jour',
+        'attr' => [
+          'class' => 'btn btn-primary'
+        ]
+      ])
+      ;
+
   }
 
   public function configureOptions(OptionsResolver $resolver): void

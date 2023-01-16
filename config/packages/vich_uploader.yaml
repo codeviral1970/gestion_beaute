@@ -4,9 +4,14 @@ vich_uploader:
         type: attribute
 
     mappings:
-        avatars:
-            uri_prefix: /images/avatar
-            upload_destination: '%kernel.project_dir%/public/images/avatar'
+        customers:
+            uri_prefix: /images/customers
+            upload_destination: '%kernel.project_dir%/public/images/customers'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        
+        profile:
+            uri_prefix: /images/profile
+            upload_destination: '%kernel.project_dir%/public/images/profile'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
             inject_on_load: false
