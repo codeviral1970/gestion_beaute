@@ -42,9 +42,9 @@ class Customers
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
 
-      // NOTE: This is not a mapped field of entity metadata, just a simple property.
-      #[Vich\UploadableField(mapping: 'avatars', fileNameProperty: 'avatar')]
-      private ?File $imageFile = null;
+    // NOTE: This is not a mapped field of entity metadata, just a simple property.
+    #[Vich\UploadableField(mapping: 'customers', fileNameProperty: 'avatar')]
+    private ?File $imageFile = null;
 
   
     public function getId(): ?int
