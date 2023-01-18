@@ -12,6 +12,9 @@ import './styles/app.css';
 import './bootstrap';
 
 import 'bootstrap';
+import 'jquery';
+import './js/main';
+
 
 window.$ = window.jQuery = require('jquery');
 window.Popper = require('popper.js').default; // pay attention to "default"

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    {{form_start(form, {'enctype' :"multipart/form-data"}) }}
+
+        {{form_widget(form)}}
+   
+    {{form_end(form)}}
+                    
+{% endblock %}

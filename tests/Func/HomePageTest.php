@@ -23,5 +23,4 @@ class HomePageTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'listes des clients');
     }
-    
 }
