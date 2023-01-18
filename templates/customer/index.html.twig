@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<!-- Card with header and footer -->
+<div class="card">
+	<div class="card-header">Liste des clients</div>
+		<div class="card-body">
+			<h5 class="card-title"></h5>
+			<table class="table">
+				<thead>
+					<tr>
+					<th scope="col">Photo</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Tél</th>
+					<th scope="col">Email</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for customer in pagination %}
+					<tr>
+					<th>
+						<img src="{{ vich_uploader_asset(customer, "imageFile") }}" class="rounded-circle img-avatar" alt="avatar"> 
+					</th>
+					<td>
+						<a href="{{path('app_client_show', {'id': customer.id })}}">{{customer.fullname}}<a/>
+					</td>
+					<td>{{customer.phone}}</td>
+					<td>{{customer.email}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="card-footer mx-auto">
+			{{ knp_pagination_render(pagination) }}
+		</div>
+	</div>
+</div>
+<!-- End Card with header and footer -->	
+{% endblock %}

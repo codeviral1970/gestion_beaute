@@ -2,12 +2,11 @@
 
 namespace App\DataFixtures;
 
-use Faker;
-use App\Entity\User;
 use App\Entity\Customers;
-use Doctrine\Persistence\ObjectManager;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Persistence\ObjectManager;
+use Faker;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -31,12 +30,11 @@ class AppFixtures extends Fixture
             ->setPassword($password)
             ->setFirstName('Duc-Man')
             ->setLastName('Banh')
-            ->setRoles(["ROLE_ADMIN"]);
+            ->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($user);
 
-        for($i = 0; $i<60; $i++)
-        {
+        for ($i = 0; $i < 60; ++$i) {
             $clients = new Customers();
 
             $clients->setFirstName($faker->firstName())
@@ -44,7 +42,7 @@ class AppFixtures extends Fixture
                 ->setAddress($faker->streetAddress())
                 ->setZipCode($faker->postcode())
                 ->setEmail($faker->email())
-                ->setPhone($faker->phoneNumber())    
+                ->setPhone($faker->phoneNumber())
             ;
 
             $manager->persist($clients);

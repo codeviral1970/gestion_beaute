@@ -8,9 +8,8 @@
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                    <img src="{{app.user.image}}" alt="Profile" class="rounded-circle"> 
-                    {# <img src="{{ vich_uploader_asset(profile, 'imageFile') | imagine_filter('avatar') }}" class="rounded-circle" alt="">  #}
+                    {# <img src="https://api.lorem.space/image/face?w=150&h=150" alt="Profile" class="rounded-circle"> #}
+                    <img src="{{ vich_uploader_asset(userAccount, 'imageFile') | imagine_filter('profile') }}" class="rounded-circle" alt=""> 
                     <h2>{{userAccount.fullName}}</h2>
                     <div class="social-links mt-2">
                         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -27,7 +26,6 @@
                 {{ message }}
             </div>
         {% endfor %}
-
 
         <div class="col-xl-8">
             <div class="card">
@@ -61,12 +59,12 @@
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Adresse</div>
-                                <div class="col-lg-9 col-md-8"></div>
+                                <div class="col-lg-9 col-md-8">{{userAccount.address}}</div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">code postal</div>
-                                <div class="col-lg-9 col-md-8"></div>
+                                <div class="col-lg-9 col-md-8">{{userAccount.zipCode}}</div>
                             </div>
 
                             <div class="row">
@@ -76,23 +74,19 @@
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Téléphone</div>
-                                <div class="col-lg-9 col-md-8"></div>
+                                <div class="col-lg-9 col-md-8">{{userAccount.phone}}</div>
                             </div>
 
                         </div>
 
                         <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                             <!-- Profile Edit Form -->
-                            {{form_start(form)}}
+                            {# {{form_start(form)}}
                                 <div class="row mb-3">
-                                <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                                <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Photo profile</label>
                                 <div class="col-md-8 col-lg-9">
-                                    <img src="assets/img/profile-img.jpg" alt="Profile">
-                                    {{form_row(form.imageFile)}}
-                                    <div class="pt-2">
-                                    <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                    <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                    </div>
+                                    
+                                    {{form_row(form.avatar)}}
                                 </div>
                                 </div>
 
@@ -139,9 +133,9 @@
                                 </div>
 
                                 <div class="text-center">
-                                    {{form_row(form.submit)}}
                                 </div>
-                            </form><!-- End Profile Edit Form -->
+                            {{form_row(form.submit)}} #}
+                            <!-- End Profile Edit Form -->
                         </div>
 
                     </div><!-- End Bordered Tabs -->

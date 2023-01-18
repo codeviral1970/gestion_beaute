@@ -2,10 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\Timer;
-use ORM\HasLifecycleCallbacks;
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CustomersRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -14,8 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class Customers
 {
-    use Timer;
-    
+  
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -43,10 +40,23 @@ class Customers
     private ?string $avatar = null;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
-    #[Vich\UploadableField(mapping: 'customers', fileNameProperty: 'avatar')]
+    #[Vich\UploadableField(mapping: 'clients', fileNameProperty: 'avatar')]
     private ?File $imageFile = null;
 
-  
+    #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
+    private $createdAt;
+
+    #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
+    private $updatedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,8 +88,7 @@ class Customers
 
     public function getFullName(): ?string
     {
-        return $this->lastName . ' ' . $this->firstName;
-
+        return $this->lastName.' '.$this->firstName;
     }
 
     public function getAddress(): ?string
@@ -167,4 +176,40 @@ class Customers
         return $this->imageFile;
     }
 
+    #[ORM\PrePersist]
+    public function onPrePersist()
+    {
+        $this->createdAt = (new \DateTimeImmutable());
+        $this->updatedAt = (new \DateTimeImmutable());
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate()
+    {
+        $this->updatedAt = (new \DateTimeImmutable());
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
 }

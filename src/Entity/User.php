@@ -3,20 +3,21 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Entity\Traits\Timer;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    //use Timer;
+    // use TimeStampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,18 +45,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
+    private ?string $avatar = null;
 
-    #[ORM\Column(type: 'datetime')]
-    private ?\DateTimeInterface $updatedAt = null;
+    #[ORM\Column(length: 255)]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $zipCode = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $phone = null;
+
+    #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
+    private $createdAt;
+
+    #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
+    private $updatedAt;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
-    #[Vich\UploadableField(mapping: 'profile', fileNameProperty: 'image')]
+    #[Vich\UploadableField(mapping: 'profile', fileNameProperty: 'avatar')]
     private ?File $imageFile = null;
 
     public function __construct()
     {
-        return $this->updatedAt = new \DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -120,7 +136,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Get the value of plainPassword
+     * Get the value of plainPassword.
      */
     public function getPlainPassword()
     {
@@ -128,9 +144,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Set the value of plainPassword
+     * Set the value of plainPassword.
      *
-     * @return  self
+     * @return self
      */
     public function setPlainPassword($plainPassword)
     {
@@ -138,8 +154,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-
 
     /**
      * @see UserInterface
@@ -169,7 +183,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFullName()
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     public function setLastName(string $lastName): self
@@ -179,19 +193,92 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getAvatar(): ?string
     {
-        return $this->image;
+        return $this->avatar;
     }
 
-    public function setImage(string $image): self
+    public function setAvatar(?string $avatar): self
     {
-        $this->image = $image;
+        $this->avatar = $avatar;
 
         return $this;
     }
 
-        /**
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(string $zipCode): self
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist()
+    {
+        $this->createdAt = (new \DateTimeImmutable());
+        $this->updatedAt = (new \DateTimeImmutable());
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate()
+    {
+        $this->updatedAt = (new \DateTimeImmutable());
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
@@ -216,15 +303,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->imageFile;
     }
 
-    public function getUpdatedAt()
+    public function __serialize(): array
     {
-        return $this->updatedAt;
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'address' => $this->address,
+            'zipCode' => $this->zipCode,
+            'phone' => $this->phone,
+            'avatar' => $this->avatar,
+            'imageFile' => $this->imageFile,
+            'roles' => $this->roles,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+            'password' => $this->password 
+        ];
     }
 
-    public function setUpdatedAt($updatedAt)
+    public function __unserialize(array $serialized)
     {
-        $this->updatedAt = $updatedAt;
-
+        $this->id = $serialized['id'];
+        $this->email = $serialized['email'];
+        $this->firstName = $serialized['firstName'];
+        $this->lastName = $serialized['lastName'];
+        $this->address = $serialized['address'];
+        $this->zipCode = $serialized['zipCode'];
+        $this->phone = $serialized['phone'];
+        $this->avatar = $serialized['avatar'];
+        $this->imageFile = $serialized['imageFile'];
+        $this->roles = $serialized['roles'];
+        $this->createdAt = $serialized['createdAt'];
+        $this->updatedAt = $serialized['updatedAt'];
+        $this->password = $serialized['password'];
         return $this;
     }
 }

@@ -1,0 +1,14 @@
+{
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "emmet.triggerExpansionOnTab": true,
+    "editor.guides.highlightActiveIndentation": "always",
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.autoIndent": "advanced",
+    "editor.indentSize": "tabSize",
+    "html.format.indentHandlebars": true,
+    "files.autoSave": "onFocusChange",
+    "prettier.tabWidth": "4",
+    "php.validate.executablePath": ""
+}
