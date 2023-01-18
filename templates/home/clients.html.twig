@@ -1,29 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
- <main id="main" class="main">
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Photo</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for customer in customers %}
-    <tr>
-      <th>{{customer.avatar}}</th>
-      <td>
-        <a href="{{path('app_show', {'id': customer.id })}}">{{customer.fullname}}<a/>
-      </td>
-      <td>{{customer.phone}}</td>
-      <td>{{customer.email}}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<main/>
-
+ 
+	<table class="table">
+		<thead>
+			<tr>
+			<th scope="col">Photo</th>
+			<th scope="col">First</th>
+			<th scope="col">Last</th>
+			<th scope="col">Handle</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for customer in pagination %}
+			<tr>
+			<th>{{customer.avatar}}</th>
+			<td>
+				<a href="{{path('app_show', {'id': customer.id })}}">{{customer.fullname}}<a/>
+			</td>
+			<td>{{customer.phone}}</td>
+			<td>{{customer.email}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="mt-5">
+		{% include "components/_pagination.html.twig" %}
+	</div>
 {% endblock %}

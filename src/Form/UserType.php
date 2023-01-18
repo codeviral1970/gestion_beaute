@@ -20,7 +20,7 @@ class UserType extends AbstractType
         ->add('email',  EmailType::class, [
             'label' => 'Email',
             'label_attr' => [
-              'class' => 'CUSTOM_LABEL_CLASS'
+              'class' => 'col-md-4 col-lg-3 col-form-label'
             ],
             'attr' => [
               'class' => 'form-control'
@@ -35,10 +35,10 @@ class UserType extends AbstractType
                 'class' => 'form-control col-md-8 col-lg-9'
             ],
         ])
-            ->add('lastName',  TextType::class, [
+        ->add('lastName',  TextType::class, [
             'label' => 'Nom',
             'label_attr' => [
-                'class' => 'CUSTOM_LABEL_CLASS'
+            'class' => 'col-md-4 col-lg-3 col-form-label'
             ],
             'attr' => [
                 'class' => 'form-control'
@@ -46,6 +46,7 @@ class UserType extends AbstractType
         ])
         ->add('imageFile',VichImageType::class, [
             'label' => 'Photo',
+            'imagine_pattern' => 'avatar',
         ])
         ->add('submit', SubmitType::class, [
             'label' => 'Enregistrer',
