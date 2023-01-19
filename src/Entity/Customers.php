@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: CustomersRepository::class)]
+#[ORM\Index(name: 'customers', columns: ['first_name', 'last_name', 'email', 'phone'], flags: ['fulltext'])]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
 class Customers
 {
-  
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UpdatePasswordType;
 use App\Form\UserType;
-use App\Services\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,14 +36,12 @@ class AccountController extends AbstractController
     public function edit(
         Request $request,
         EntityManagerInterface $em,
-        FileUploader $fileUploader,
         User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-         
             $em->persist($user);
             $em->flush();
 

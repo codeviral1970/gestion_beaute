@@ -15,11 +15,15 @@
 
             <!-- Card with an image on top -->
           <div class="card">
-            {# <img src="https://api.lorem.space/image/face?w=150&h=150" class="card-img-top" alt="..."> #}
-            <img src="{{ vich_uploader_asset(customer, "imageFile") }}" class="card-img-top"" alt="avatar"> 
+            {# <img src="{{ vich_uploader_asset(customer, "imageFile") }} class="card-img-top"" alt="avatar"> #}
+             {% if customer.avatar %}
+                <img src="{{ vich_uploader_asset(customer, "imageFile") }}" width="300" height="300" class="card-img-top" alt="avatar">
+                {% else %}
+                 <img src="https://api.lorem.space/image/movie?w=150&h=220" width="300" height="300" class="card-img-top" alt="avatar">
+                {% endif %} 
             <div class="card-body">
               <h5 class="card-title">{{customer.firstName }} {{customer.lastName}}</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+             
             </div>
           </div><!-- End Card with an image on top -->
         </div>
@@ -32,7 +36,7 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Info profil</button>
                 </li>
 
                 <li class="nav-item">
@@ -62,12 +66,12 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">CP</div>
+                    <div class="col-lg-3 col-md-4 label">Code Postal</div>
                     <div class="col-lg-9 col-md-8">{{customer.zipCode}}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Tel</div>
+                    <div class="col-lg-3 col-md-4 label">Téléphone</div>
                     <div class="col-lg-9 col-md-8">{{customer.phone}}</div>
                   </div>
 

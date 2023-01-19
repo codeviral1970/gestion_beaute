@@ -20,16 +20,16 @@ class CustomerType extends AbstractType
         ->add('firstName', TextType::class, [
             'label' => 'Prénom',
             'label_attr' => [
-              	'class' => 'col-md-8 col-lg-5',
+                  'class' => 'col-md-8 col-lg-5',
             ],
             'attr' => [
-              	'class' => 'col-lg-9 col-md-8',
+                  'class' => 'col-lg-9 col-md-8',
             ],
           ])
           ->add('lastName', TextType::class, [
             'label' => 'Nom',
             'label_attr' => [
-              	'class' => 'col-md-8 col-lg-9',
+                  'class' => 'col-md-8 col-lg-9',
             ],
             'attr' => [
               'class' => 'col-lg-9 col-md-8',
@@ -38,43 +38,43 @@ class CustomerType extends AbstractType
           ->add('address', TextType::class, [
             'label' => 'Adresse',
             'label_attr' => [
-             	 'class' => 'col-md-8 col-lg-9',
+                  'class' => 'col-md-8 col-lg-9',
             ],
             'attr' => [
-              	'class' => 'col-lg-9 col-md-8',
+                  'class' => 'col-lg-9 col-md-8',
             ],
           ])
           ->add('zipCode', TextType::class, [
             'label' => 'Code postal',
             'label_attr' => [
-              	'class' => 'col-md-8 col-lg-9',
+                  'class' => 'col-md-8 col-lg-9',
             ],
             'attr' => [
-              	'class' => 'col-lg-9 col-md-8',
+                  'class' => 'col-lg-9 col-md-8',
             ],
           ])
           ->add('email', EmailType::class, [
             'label' => 'Email',
             'label_attr' => [
-              	'class' => 'col-lg-9 col-md-8',
+                  'class' => 'col-lg-9 col-md-8',
             ],
             'attr' => [
-              	'class' => 'col-lg-9 col-md-8',
+                  'class' => 'col-lg-9 col-md-8',
             ],
           ])
           ->add('phone', TelType::class, [
             'label' => 'Téléphone',
             'label_attr' => [
-              	'class' => 'col-md-8 col-lg-9',
+                  'class' => 'col-md-8 col-lg-9',
             ],
             'attr' => [
-              	'class' => 'col-lg-9 col-md-8',
+                  'class' => 'col-lg-9 col-md-8',
             ],
           ])
           ->add('imageFile', VichImageType::class, [
             'label' => 'Photo',
             'download_uri' => false,
-            'required' => false
+            'required' => false,
           ])
           ->add('submit', SubmitType::class, [
             'label' => 'Enregistrer',

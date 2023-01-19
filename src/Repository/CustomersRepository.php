@@ -16,9 +16,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CustomersRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Customers::class);
+        $this->paginator = $paginator;
     }
 
     public function save(Customers $entity, bool $flush = false): void
@@ -39,28 +42,4 @@ class CustomersRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Customers[] Returns an array of Customers objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Customers
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
