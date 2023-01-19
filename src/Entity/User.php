@@ -6,11 +6,10 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Serializer\SerializerInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -278,7 +277,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-     /**
+    /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
@@ -318,7 +317,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'roles' => $this->roles,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
-            'password' => $this->password 
+            'password' => $this->password,
         ];
     }
 
@@ -337,6 +336,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = $serialized['createdAt'];
         $this->updatedAt = $serialized['updatedAt'];
         $this->password = $serialized['password'];
+
         return $this;
     }
 }

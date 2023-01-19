@@ -24,7 +24,7 @@ class CustomerController extends AbstractController
         $pagination = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1), /* page number */
-            4
+            8
         );
 
         return $this->render('customer/index.html.twig', [
