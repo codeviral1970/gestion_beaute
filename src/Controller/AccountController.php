@@ -14,12 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
 {
-    private $hasher;
 
-    public function __construct(UserPasswordHasherInterface $hasher)
-    {
-        $this->hasher = $hasher;
-    }
+    public function __construct( private UserPasswordHasherInterface $hasher)
+    {}
 
     #[Route('/mon-compte', name: 'app_account')]
     public function index(Request $request): Response

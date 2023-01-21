@@ -16,12 +16,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CustomersRepository extends ServiceEntityRepository
 {
-    private $paginator;
 
-    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Customers::class);
-        $this->paginator = $paginator;
     }
 
     public function save(Customers $entity, bool $flush = false): void
@@ -41,5 +39,4 @@ class CustomersRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
 }
