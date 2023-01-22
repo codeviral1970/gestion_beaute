@@ -22,6 +22,20 @@ class CustomersRepository extends ServiceEntityRepository
         parent::__construct($registry, Customers::class);
     }
 
+    public function findByQuery(string $query): array
+    {
+        if (empty($query)) {
+            return [];
+        }
+
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.firstName LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function save(Customers $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

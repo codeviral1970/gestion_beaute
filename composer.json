@@ -43,6 +43,7 @@
         "symfony/translation": "6.0.*",
         "symfony/twig-bundle": "6.0.*",
         "symfony/ux-live-component": "^2.6",
+        "symfony/ux-twig-component": "^2.6",
         "symfony/validator": "6.0.*",
         "symfony/web-link": "6.0.*",
         "symfony/yaml": "6.0.*",

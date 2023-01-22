@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UpdatePasswordType;
 use App\Form\UserType;
+use App\Entity\ResetPassword;
+use App\Form\ResetPasswordType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AccountController extends AbstractController
 {
@@ -19,78 +20,58 @@ class AccountController extends AbstractController
     {}
 
     #[Route('/mon-compte', name: 'app_account')]
-    public function index(Request $request): Response
+    public function index(Request $request, EntityManagerInterface $em): Response
     {
         $userAccount = $this->getUser();
 
-        // dd($userAccount);
-        return $this->render('account/index.html.twig', [
-            'userAccount' => $userAccount,
-        ]);
-    }
+        //Création du formulaire pour éditer les informations
+        $formUserEdit = $this->createForm(UserType::class, $userAccount);
+        $formUserEdit->handleRequest($request);
 
-    #[route('/mon-compte/edition/{id}', name: 'app_account_edit')]
-    public function edit(
-        Request $request,
-        EntityManagerInterface $em,
-        User $user): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($user);
+        if ($formUserEdit->isSubmitted() && $formUserEdit->isValid()) {
+            $em->persist($userAccount);
             $em->flush();
 
             return $this->redirectToRoute('app_account');
         }
 
-        return $this->render('account/edit.html.twig', [
-            'form' => $form->createView(),
+        
+        //Création du formulaire pour changer le mot de passe
+        $resetPassword = new ResetPassword();
+        $formResetPassword = $this->createForm(ResetPasswordType::class, $resetPassword);
+        $formResetPassword->handleRequest($request);
+
+        if($formResetPassword->isSubmitted() && $formResetPassword->isValid())
+        {
+            if(!password_verify($resetPassword->getOldPassword(), $userAccount->getPassword())){
+
+                $formResetPassword->get('oldPassword')->addError(new FormError("Le mot de passe n\'est pas identique à oldPassword"));
+                $this->addFlash(
+                    'warning',
+                    'Les mots de passe ne sont pas identique ou votre oldPassword  pas le bon..'
+                );
+            } else {
+                $newPassword = $resetPassword->getNewPassword();
+                $hash = $this->hasher->hashPassword($userAccount, $newPassword);
+
+                $userAccount->setPassword($hash);
+
+                $em->persist($userAccount);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre mot de passe à bien été modifié.'
+                );
+
+                return $this->redirectToRoute('app_account');
+            }
+        }
+
+        return $this->render('account/index.html.twig', [
+            'formResetPassword' => $formResetPassword->createView(),
+            'formUserEdit' => $formUserEdit->createView(),
+            'userAccount' => $userAccount,
         ]);
-    }
-
-    #[Route('/reset-password/{id}', name: 'app_reset_password')]
-    public function updatePassword(
-        Request $request,
-        EntityManagerInterface $em,
-        UserPasswordHasherInterface $hasher,
-        User $user)
-    {
-        // $updatePasswordForm = $this->createForm(UpdatePasswordType::class);
-        // $updatePasswordForm->handleRequest($request);
-
-        // if($updatePasswordForm->isSubmitted() && $updatePasswordForm->isValid())
-        // {
-        //     if($hasher->isPasswordValid($user, $updatePasswordForm->getData()['plainPassword'] ))
-        //     {
-        //         $user->setUpdatedAt(new \DateTimeImmutable());
-        //         $user->setPlainPassword(
-        //             $updatePasswordForm->getData()['newPassword'],
-        //         );
-
-        //         $em->persist($user);
-        //         $em->flush();
-        //        // dd($user);
-
-        //         $this->addFlash(
-        //             'success',
-        //             'Les informations de votre compte ont bien été modifiées.'
-        //         );
-
-        //         return $this->redirectToRoute('app_account');
-        //     } else {
-        //         $this->addFlash(
-        //             'warning',
-        //             'Le mot de passe renseigné est incorrect.'
-        //         );
-        //     }
-
-        //     return $this->redirectToRoute('app_home');
-        // }
-
-        // return $this->render('account/resetPassword.html.twig', [
-        //     'updatePasswordForm' => $updatePasswordForm->createView()
-        // ]);
     }
 }
