@@ -72,17 +72,6 @@ class UserType extends AbstractType
               'class' => 'form-control',
             ],
         ])
-        // ->add('avatar', FileType::class, [
-        //     'label' => 'Photo',
-        //     'mapped' => false,
-        //     'required' => false,
-        //     'label_attr' => [
-        //         'class' => 'col-md-4 col-lg-3 col-form-label',
-        //     ],
-        //     'attr' => [
-        //         'class' => 'mt-3 mb-3',
-        //     ],
-        // ])
          ->add('imageFile', VichImageType::class, [
             'label' => 'Photo',
             'download_uri' => false,

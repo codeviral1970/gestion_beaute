@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Service;
+use App\Entity\Soin;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Service>
+ * @extends ServiceEntityRepository<Soin>
  *
- * @method Service|null find($id, $lockMode = null, $lockVersion = null)
- * @method Service|null findOneBy(array $criteria, array $orderBy = null)
- * @method Service[]    findAll()
- * @method Service[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Soin|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Soin|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Soin[]    findAll()
+ * @method Soin[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ServiceRepository extends ServiceEntityRepository
+class SoinRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Service::class);
+        parent::__construct($registry, Soin::class);
     }
 
-    public function save(Service $entity, bool $flush = false): void
+    public function save(Soin $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ServiceRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Service $entity, bool $flush = false): void
+    public function remove(Soin $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class ServiceRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Service[] Returns an array of Service objects
+//     * @return Soin[] Returns an array of Soin objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class ServiceRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Service
+//    public function findOneBySomeField($value): ?Soin
 //    {
 //        return $this->createQueryBuilder('s')
 //            ->andWhere('s.exampleField = :val')

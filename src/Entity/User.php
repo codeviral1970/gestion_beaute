@@ -311,41 +311,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->imageFile;
     }
 
-    public function __serialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'email' => $this->email,
-            'firstName' => $this->firstName,
-            'lastName' => $this->lastName,
-            'address' => $this->address,
-            'zipCode' => $this->zipCode,
-            'phone' => $this->phone,
-            'avatar' => $this->avatar,
-            'imageFile' => $this->imageFile,
-            'roles' => $this->roles,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
-            'password' => $this->password,
-        ];
-    }
+    // public function __serialize(): array
+    // {
+    //     return [
+    //         'id' => $this->id,
+    //         'email' => $this->email,
+    //         'firstName' => $this->firstName,
+    //         'lastName' => $this->lastName,
+    //         'address' => $this->address,
+    //         'zipCode' => $this->zipCode,
+    //         'phone' => $this->phone,
+    //         'avatar' => $this->avatar,
+    //         'imageFile' => $this->imageFile,
+    //         'roles' => $this->roles,
+    //         'createdAt' => $this->createdAt,
+    //         'updatedAt' => $this->updatedAt,
+    //         'password' => $this->password,
+    //     ];
+    // }
 
-    public function __unserialize(array $serialized)
-    {
-        $this->id = $serialized['id'];
-        $this->email = $serialized['email'];
-        $this->firstName = $serialized['firstName'];
-        $this->lastName = $serialized['lastName'];
-        $this->address = $serialized['address'];
-        $this->zipCode = $serialized['zipCode'];
-        $this->phone = $serialized['phone'];
-        $this->avatar = $serialized['avatar'];
-        $this->imageFile = $serialized['imageFile'];
-        $this->roles = $serialized['roles'];
-        $this->createdAt = $serialized['createdAt'];
-        $this->updatedAt = $serialized['updatedAt'];
-        $this->password = $serialized['password'];
+    // public function __unserialize(array $serialized)
+    // {
+    //     $this->id = $serialized['id'];
+    //     $this->email = $serialized['email'];
+    //     $this->firstName = $serialized['firstName'];
+    //     $this->lastName = $serialized['lastName'];
+    //     $this->address = $serialized['address'];
+    //     $this->zipCode = $serialized['zipCode'];
+    //     $this->phone = $serialized['phone'];
+    //     $this->avatar = $serialized['avatar'];
+    //     $this->imageFile = $serialized['imageFile'];
+    //     $this->roles = $serialized['roles'];
+    //     $this->createdAt = $serialized['createdAt'];
+    //     $this->updatedAt = $serialized['updatedAt'];
+    //     $this->password = $serialized['password'];
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }

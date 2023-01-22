@@ -10,6 +10,6 @@ liip_imagine:
         cache: ~
 
         profile:
-            quality: 75
+            quality: 85
             filters:
-                thumbnail: { size: [70, 70], mode: outbound }
+                thumbnail: { size: [300, 300], mode: outbound }
