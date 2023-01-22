@@ -11,13 +11,15 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
+#[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    // use TimeStampTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,6 +27,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -34,26 +38,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
     private ?string $password = null;
 
-    private ?string $plainPassword = null;
-
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
     private ?string $zipCode = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
