@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\CustomersRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: CustomersRepository::class)]
-#[ORM\Index(name: 'customers', columns: ['first_name', 'last_name', 'email', 'phone'], flags: ['fulltext'])]
+#[ORM\Index(name: 'customers_idx', columns: ['first_name', 'last_name', 'email', 'phone'], flags: ['fulltext'])]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
 class Customers

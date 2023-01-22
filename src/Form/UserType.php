@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserType extends AbstractType
@@ -91,12 +92,13 @@ class UserType extends AbstractType
             ],
             'attr' => [
                 'class' => 'mt-3 mb-3',
+                'style'=>'width:250px;',
             ],
         ])
         ->add('submit', SubmitType::class, [
             'label' => 'Enregistrer',
             'attr' => [
-                'class' => 'btn btn-primary',
+                'class' => 'btn btn-primary mt-3',
             ],
         ])
         ;

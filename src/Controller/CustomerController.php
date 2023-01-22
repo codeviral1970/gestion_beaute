@@ -20,15 +20,15 @@ class CustomerController extends AbstractController
         PaginatorInterface $paginator,
         Request $request
         ): Response {
-        $data = $customers->findAll();
-        $pagination = $paginator->paginate(
-            $data,
-            $request->query->getInt('page', 1), /* page number */
-            8
-        );
+        // $data = $customers->findAll();
+        // $pagination = $paginator->paginate(
+        //     $data,
+        //     $request->query->getInt('page', 1), /* page number */
+        //     8
+        // );
 
         return $this->render('customer/index.html.twig', [
-            'pagination' => $pagination,
+            // 'pagination' => $pagination,
         ]);
     }
 

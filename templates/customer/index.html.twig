@@ -2,68 +2,14 @@
 
 {% block body %}
 
-<!-- Card with header and footer -->
-{# <div class="card">
-	<div class="card-header">Liste des clients</div>
-		<div class="card-body">
-			<h5 class="card-title"></h5>
-			<table class="table">
-				<thead>
-					<tr>
-					<th scope="col">Photo</th>
-					<th scope="col">Nom</th>
-					<th scope="col">Tél</th>
-					<th scope="col">Email</th>
-					</tr>
-				</thead>
-				<tbody>
-				{% for customer in pagination %}
-					<tr>
-					<th>
-						<img src="{{ vich_uploader_asset(customer, "imageFile") }}" class="rounded-circle img-avatar" alt="avatar"> 
-					</th>
-					<td>
-						<a href="{{path('app_client_show', {'id': customer.id })}}">{{customer.fullname}}<a/>
-					</td>
-					<td>{{customer.phone}}</td>
-					<td>{{customer.email}}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		<div class="card-footer mx-auto">
-			{{ knp_pagination_render(pagination) }}
-		</div>
-	</div>
-</div> #}
-<!-- End Card with header and footer -->
 <div class="container mx-auto mt-4">
     <div class="card text-center">
 		<h1>Liste des clients</h1>
     </div>
     <div class="row mt-4">
-        {% for customer in pagination %}
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                {% if customer.avatar %}
-                <img src="{{ vich_uploader_asset(customer, "imageFile") }}" width="250" height="300" class="card-img-top" alt="avatar">
-                {% else %}
-                 <img src="https://api.lorem.space/image/movie?w=150&h=220" width="250" height="300" class="card-img-top" alt="avatar">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title"><a href="{{path('app_client_show', {'id': customer.id })}}">{{customer.fullname}}<a/></h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Information client</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn mr-2"><i class="fas fa-link"></i> Visit Site</a>
-                    <a href="#" class="btn "><i class="fab fa-github"></i> Github</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    <div class="card-footer mx-auto">
-		{{ knp_pagination_render(pagination) }}
+		  {{component('customer_search')}}
+
+		  {{component('all_customers')}}
     </div>
 </div>
 {% endblock %}
