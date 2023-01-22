@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceRepository;
+use App\Repository\SoinRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: ServiceRepository::class)]
-class Service
+#[ORM\Entity(repositoryClass: SoinRepository::class)]
+#[UniqueEntity('name')]
+class Soin
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,7 +35,7 @@ class Service
 
         return $this;
     }
-
+    
     public function getId(): ?int
     {
         return $this->id;

@@ -16,7 +16,7 @@
 <div class="col-xxl-3 col-md-4">
     <div class="card">
         {% if this.customers.avatar %}
-            <img class="card-img-top" src="{{ vich_uploader_asset(this.customers, "imageFile") }}" width="250" height="300" alt="Avatar">
+            <img class="card-img-top" src="{{ vich_uploader_asset(this.customers, "imageFile") | imagine_filter('profile') }}" width="250" height="300" alt="Avatar">
         {% else %}
             <img src="https://api.lorem.space/image/movie?w=150&h=220" width="250" height="300" class="card-img-top" alt="avatar">
         {% endif %}
