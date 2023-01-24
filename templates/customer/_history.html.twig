@@ -1,0 +1,46 @@
+<div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Récente soin</h5>
+            <!-- Vertically centered Modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+              +
+            </button>
+            <div class="modal fade" id="verticalycentered" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un soin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {{form(historyForm)}}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Vertically centered Modal-->
+          </div>
+          <div class="card-body">
+            <table class="table table-borderless datatable">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Soin</th>
+                  <th scope="col">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ch in customer.historySoin %}
+                <tr>
+                  <td>{{ch.createdAt | date("d/m/Y")}}</td>
+                  <td><a href="#" class="text-primary">{{ch.service}}</a></td>
+                  <td>{{ch.content}}</td>
+                  <td><span class="badge bg-success">Approved</span></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>

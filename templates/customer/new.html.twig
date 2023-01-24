@@ -3,10 +3,20 @@
 
 {% block body %}
 
-    {{form_start(form, {'enctype' :"multipart/form-data"}) }}
-
-        {{form_widget(form)}}
-   
-    {{form_end(form)}}
-                    
+<div class="card">
+    <div class="card-body">
+    <h5 class="card-title">Ajouter un nouveau client</h5>
+    {{form_start(form) }}
+        {{form_row(form.firstName)}}
+        {{form_row(form.lastName)}}
+        {{form_row(form.address)}}
+        {{form_row(form.zipCode)}}
+        {{form_row(form.email)}}
+        {{form_row(form.phone)}}
+        {{form_row(form.soin)}}
+        {{form_row(form.imageFile)}}
+        {{form_row(form.submit)}}
+    {{form_end(form)}}              
+    </div>
+</div>
 {% endblock %}
