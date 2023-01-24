@@ -2,33 +2,29 @@
 
 {% block title 'Listes des clients' %}
 
-
 {% block body %}
-
     <div class="pagetitle">
       <h1>Profile</h1>
     </div><!-- End Page Title -->
-
     <section class="section profile">
       <div class="row">
-        <div class="col-xl-4">
-
-            <!-- Card with an image on top -->
+        <div class="col-md-4">
+          <!-- Card with an image on top -->
           <div class="card">
             {# <img src="{{ vich_uploader_asset(customer, "imageFile") }} class="card-img-top"" alt="avatar"> #}
-             {% if customer.avatar %}
+             {% if customer.avatar | default %}
                 <img src="{{ vich_uploader_asset(customer, "imageFile") | imagine_filter('profile') }}" width="300" height="300" class="card-img-top" alt="avatar">
                 {% else %}
                  <img src="https://api.lorem.space/image/movie?w=150&h=220" width="300" height="300" class="card-img-top" alt="avatar">
                 {% endif %} 
             <div class="card-body">
-              <h5 class="card-title">{{customer.firstName }} {{customer.lastName}}</h5>
+              <h5 class="card-title">{{customer.firstName | default }} {{customer.lastName | default}}</h5>
              
             </div>
           </div><!-- End Card with an image on top -->
         </div>
 
-        <div class="col-xl-8">
+        <div class="col-md-8">
 
           <div class="card">
             <div class="card-body pt-3">
@@ -52,32 +48,32 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Prénom</div>
-                    <div class="col-lg-9 col-md-8">{{customer.firstName}}</div>
+                    <div class="col-lg-9 col-md-8">{{customer.firstName | default}}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Nom</div>
-                    <div class="col-lg-9 col-md-8">{{customer.lastName}}</div>
+                    <div class="col-lg-9 col-md-8">{{customer.lastName | default}}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Adresse</div>
-                    <div class="col-lg-9 col-md-8">{{customer.address}}</div>
+                    <div class="col-lg-9 col-md-8">{{customer.address | default}}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Code Postal</div>
-                    <div class="col-lg-9 col-md-8">{{customer.zipCode}}</div>
+                    <div class="col-lg-9 col-md-8">{{customer.zipCode | default}}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Téléphone</div>
-                    <div class="col-lg-9 col-md-8">{{customer.phone}}</div>
+                    <div class="col-lg-9 col-md-8">{{customer.phone | default}}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">{{customer.email}}</div>
+                    <div class="col-lg-9 col-md-8">{{customer.email | default}}</div>
                   </div>
 
                 </div>
@@ -89,15 +85,9 @@
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
-                        {# <img src="assets/img/profile-img.jpg" alt="Profile"> #}
                         {{form_row(form.imageFile)}}
-                        {# <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                        </div> #}
                       </div>
                     </div>
-
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                       <div class="col-md-8 col-lg-9">
@@ -153,6 +143,8 @@
           </div>
 
         </div>
+
+        {% include ('customer/_history.html.twig') %}
       </div>
     </section>
 

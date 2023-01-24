@@ -2,104 +2,123 @@
 
 namespace App\Controller;
 
+use App\Entity\History;
 use App\Entity\Customers;
+use App\Form\HistoryType;
 use App\Form\CustomerType;
 use App\Repository\CustomersRepository;
+use App\Repository\HistoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CustomerController extends AbstractController
 {
-    #[Route('/clients', name: 'app_clients')]
-    public function all(
-        CustomersRepository $customers,
-        PaginatorInterface $paginator,
-        Request $request
-        ): Response {
-        // $data = $customers->findAll();
-        // $pagination = $paginator->paginate(
-        //     $data,
-        //     $request->query->getInt('page', 1), /* page number */
-        //     8
-        // );
+  #[Route('/clients', name: 'app_clients')]
+  public function all(
+    CustomersRepository $customers,
+    Request $request
+  ): Response {
+    // $data = $customers->findAll();
+    // $pagination = $paginator->paginate(
+    //     $data,
+    //     $request->query->getInt('page', 1), /* page number */
+    //     8
+    // );
 
-        return $this->render('customer/index.html.twig', [
-            // 'pagination' => $pagination,
-        ]);
+    return $this->render('customer/index.html.twig', [
+      // 'pagination' => $pagination,
+    ]);
+  }
+
+  #[Route('/clients/new', name: 'app_clients_new')]
+  public function new(CustomersRepository $customers, SoinRepository $soin, Request $request, ManagerRegistry $doctrine): Response
+  {
+    $entityManager = $doctrine->getManager();
+
+    $customers = new Customers();
+
+    $form = $this->createForm(CustomerType::class, $customers);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+      //$soin = $customers->addSoin();
+      // foreach ($customers->getSoin() as $soin) {
+      //   $soin->addCustomer($customers);
+      //   $entityManager->persist($soin);
+      // }
+      $entityManager->persist($customers);
+      $entityManager->flush();
+
+      return $this->redirectToRoute('app_clients');
     }
 
-    #[Route('/clients/nouveau', name: 'app_clients_new')]
-    public function new(CustomersRepository $customers, Request $request, ManagerRegistry $doctrine): Response
-    {
-        $entityManager = $doctrine->getManager();
+    return $this->render('customer/new.html.twig', [
+      'form' => $form->createView(),
+    ]);
+  }
 
-        $customers = new Customers();
+  #[Route('/clients/show/{id}', name: 'app_client_show')]
+  public function show(
+    CustomersRepository $customers,
+    EntityManagerInterface $em,
+    Request $request,
+    HistoryRepository $historyAll,
+    $id
+  ): Response {
 
-        $form = $this->createForm(CustomerType::class, $customers);
-        $form->handleRequest($request);
+    $history = new History();
+    $historyAll = $historyAll->findAll();
+    $customer = $customers->find($id);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($customers);
-            $entityManager->flush();
+    $form = $this->createForm(CustomerType::class, $customer);
+    $historyForm = $this->createForm(HistoryType::class, $history);
+    $form->handleRequest($request);
+    $historyForm->handleRequest($request);
 
-            return $this->redirectToRoute('app_clients');
-        }
-
-        return $this->render('customer/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
+    if ($form->isSubmitted() && $form->isValid()) {
+      $em->persist($customer);
+      $em->flush();
+      return $this->redirectToRoute('app_clients');
     }
 
-    #[Route('/clients/edit/{id}', name: 'app_client_edit')]
-    public function edit(CustomersRepository $customers, $id, Request $request, ManagerRegistry $doctrine): Response
-    {
-        $entityManager = $doctrine->getManager();
-
-        $form = $this->createForm(CustomerType::class, $customers);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($customers);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_clients');
-        }
-
-        return $this->render('customer/show.html.twig', [
-            'form' => $form->createView(),
-        ]);
+    if ($historyForm->isSubmitted() && $historyForm->isValid()) {
+      $historySoin = $history->addCustomer($customer);
+      $em->persist($historySoin);
+      $em->flush();
+      return $this->redirectToRoute('app_client_show');
     }
 
-    #[Route('/clients/{id}', name: 'app_client_show')]
-    public function show(
-        CustomersRepository $customers,
-        ManagerRegistry $doctrine,
-        Request $request,
-        $id
-        ): Response {
-        $entityManager = $doctrine->getManager();
+    return $this->render('customer/show.html.twig', [
+      'customer' => $customer,
+      'form' => $form->createView(),
+      'historyForm' => $historyForm->createView(),
+      'historyAll' => $historyAll
+    ]);
+  }
 
-        $customer = $customers->find($id);
+  #[Route('/clients/edit/{id}', name: 'app_client_edit')]
+  public function edit(CustomersRepository $customers, $id, Request $request, ManagerRegistry $doctrine): Response
+  {
+    $entityManager = $doctrine->getManager();
 
-        $entityManager = $doctrine->getManager();
+    $form = $this->createForm(CustomerType::class, $customers);
+    $form->handleRequest($request);
 
-        $form = $this->createForm(CustomerType::class, $customer);
-        $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+      $entityManager->persist($customers);
+      $entityManager->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($customer);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_clients');
-        }
-
-        return $this->render('customer/show.html.twig', [
-            'customer' => $customer,
-            'form' => $form->createView(),
-        ]);
+      return $this->redirectToRoute('app_clients');
     }
+
+    return $this->render('customer/show.html.twig', [
+      'form' => $form->createView(),
+    ]);
+  }
 }
