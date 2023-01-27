@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\History;
 use App\Entity\Customers;
+use App\Entity\SearchCustomer;
 use App\Form\HistoryType;
 use App\Form\CustomerType;
+use App\Form\SearchCustomerType;
 use App\Repository\CustomersRepository;
 use App\Repository\HistoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,22 +23,36 @@ class CustomerController extends AbstractController
   #[Route('/clients', name: 'app_clients')]
   public function all(
     CustomersRepository $customers,
-    Request $request
+    PaginatorInterface $paginator,
+    Request $request,
+    EntityManagerInterface $em
   ): Response {
-    // $data = $customers->findAll();
-    // $pagination = $paginator->paginate(
-    //     $data,
-    //     $request->query->getInt('page', 1), /* page number */
-    //     8
-    // );
+
+
+
+    if ($request->isMethod('POST')) {
+
+      $query = $request->get('query');
+
+      $data = $customers->findByQuery($query);
+    } else {
+
+      $data = $customers->orderDesc();
+    }
+
+    $pagination = $paginator->paginate(
+      $data,
+      $request->query->getInt('page', 1),
+      8
+    );
 
     return $this->render('customer/index.html.twig', [
-      // 'pagination' => $pagination,
+      'pagination' => $pagination
     ]);
   }
 
   #[Route('/clients/new', name: 'app_clients_new')]
-  public function new(CustomersRepository $customers, SoinRepository $soin, Request $request, ManagerRegistry $doctrine): Response
+  public function new(CustomersRepository $customers, Request $request, ManagerRegistry $doctrine): Response
   {
     $entityManager = $doctrine->getManager();
 
@@ -73,7 +89,8 @@ class CustomerController extends AbstractController
   ): Response {
 
     $history = new History();
-    $historyAll = $historyAll->findAll();
+    $historyAll = $historyAll->historyOrderByDesc();
+    //dd($historyAll);
     $customer = $customers->find($id);
 
     $form = $this->createForm(CustomerType::class, $customer);
@@ -91,7 +108,7 @@ class CustomerController extends AbstractController
       $historySoin = $history->addCustomer($customer);
       $em->persist($historySoin);
       $em->flush();
-      return $this->redirectToRoute('app_client_show');
+      return $this->redirectToRoute('app_clients');
     }
 
     return $this->render('customer/show.html.twig', [

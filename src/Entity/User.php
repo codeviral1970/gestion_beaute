@@ -47,9 +47,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[Assert\NotBlank(message: "Ce champ ne peut être vide")]
   private ?string $lastName = null;
 
-  #[ORM\Column(length: 255, nullable: true)]
-  private ?string $avatar = null;
-
   #[ORM\Column(length: 255)]
   #[Assert\NotBlank(message: "Ce champ ne peut être vide")]
   private ?string $address = null;
@@ -68,9 +65,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
   private $updatedAt;
 
-  // NOTE: This is not a mapped field of entity metadata, just a simple property.
-  #[Vich\UploadableField(mapping: 'profile', fileNameProperty: 'avatar')]
-  private ?File $imageFile = null;
+  #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+  private ?Image $userAvatar = null;
 
   public function __construct()
   {
@@ -179,17 +175,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     return $this;
   }
 
-  public function getAvatar(): ?string
-  {
-    return $this->avatar;
-  }
+  // public function getAvatar(): ?string
+  // {
+  //   return $this->avatar;
+  // }
 
-  public function setAvatar(?string $avatar): self
-  {
-    $this->avatar = $avatar;
+  // public function setAvatar(?string $avatar): self
+  // {
+  //   $this->avatar = $avatar;
 
-    return $this;
-  }
+  //   return $this;
+  // }
 
   public function getAddress(): ?string
   {
@@ -264,65 +260,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     return $this;
   }
 
-  /**
-   * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-   * of 'UploadedFile' is injected into this setter to trigger the update. If this
-   * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-   * must be able to accept an instance of 'File' as the bundle will inject one here
-   * during Doctrine hydration.
-   *
-   * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-   */
-  public function setImageFile(?File $imageFile = null): void
+  public function getUserAvatar(): ?Image
   {
-    $this->imageFile = $imageFile;
-
-    if (null !== $imageFile) {
-      // It is required that at least one field changes if you are using doctrine
-      // otherwise the event listeners won't be called and the file is lost
-      $this->updatedAt = new \DateTimeImmutable();
-    }
+    return $this->userAvatar;
   }
 
-  public function getImageFile(): ?File
+  public function setUserAvatar(?Image $userAvatar): self
   {
-    return $this->imageFile;
-  }
-
-  public function __serialize(): array
-  {
-    return [
-      'id' => $this->id,
-      'email' => $this->email,
-      'firstName' => $this->firstName,
-      'lastName' => $this->lastName,
-      'address' => $this->address,
-      'zipCode' => $this->zipCode,
-      'phone' => $this->phone,
-      'avatar' => $this->avatar,
-      'imageFile' => $this->imageFile,
-      'updatedAt' => $this->updatedAt,
-      'roles' => $this->roles,
-      'createdAt' => $this->createdAt,
-      'password' => $this->password,
-    ];
-  }
-
-  public function __unserialize(array $serialized)
-  {
-    $this->id = $serialized['id'];
-    $this->email = $serialized['email'];
-    $this->firstName = $serialized['firstName'];
-    $this->lastName = $serialized['lastName'];
-    $this->address = $serialized['address'];
-    $this->zipCode = $serialized['zipCode'];
-    $this->phone = $serialized['phone'];
-    $this->avatar = $serialized['avatar'];
-    $this->imageFile = $serialized['imageFile'];
-    $this->updatedAt = $serialized['updatedAt'];
-    $this->roles = $serialized['roles'];
-    $this->createdAt = $serialized['createdAt'];
-    $this->password = $serialized['password'];
+    $this->userAvatar = $userAvatar;
 
     return $this;
   }

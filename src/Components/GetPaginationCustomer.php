@@ -2,17 +2,21 @@
 
 namespace App\Components;
 
-use App\Entity\Customers;
 use App\Repository\CustomersRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 
-
-#[AsTwigComponent('all_customers')]
-class AllCustomersComponent extends AbstractController
+#[AsLiveComponent('customer_pagination')]
+class GetPaginationCustomer
 {
-  private int $id;
+  use DefaultActionTrait;
+
+  #[LiveProp(writable: true)]
+  public string $query = '';
+  public int $page;
 
   public function __construct(
     private CustomersRepository $customersRepository,
@@ -20,9 +24,10 @@ class AllCustomersComponent extends AbstractController
   ) {
   }
 
-  public function getAllCustomer()
+  public function getCustomerPaginator()
   {
     // $data = $this->customersRepository->findAll();
+    // dd($data);
     // $pagination = $this->paginator->paginate(
     //   $data, /* query NOT result */
     //   $this->request->query->getInt('page', 1)/*page number*/,
@@ -30,7 +35,7 @@ class AllCustomersComponent extends AbstractController
     // );
 
     // return $pagination;
-
+    // return $this->customersRepository->findPage(1);
     return $this->customersRepository->findAll();
   }
 }

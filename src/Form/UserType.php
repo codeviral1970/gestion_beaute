@@ -3,15 +3,17 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserType extends AbstractType
 {
@@ -72,17 +74,16 @@ class UserType extends AbstractType
           'class' => 'form-control',
         ],
       ])
-      ->add('imageFile', VichImageType::class, [
-        'label' => 'Photo',
-        'download_uri' => false,
-        'required' => false,
+      ->add('userAvatar', EntityType::class, [
+        'class' => Image::class,
+        'choice_label' => 'imageName',
+        'label' => 'Photo profil',
         'label_attr' => [
-          'class' => 'col-md-4 col-lg-3 col-form-label',
+          'class' => 'col-sm-2 col-form-label'
         ],
         'attr' => [
-          'class' => 'mt-3 mb-3',
-          'style' => 'width:250px;',
-        ],
+          'class' => 'form-select'
+        ]
       ])
       ->add('submit', SubmitType::class, [
         'label' => 'Enregistrer',

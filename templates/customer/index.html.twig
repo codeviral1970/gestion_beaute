@@ -4,13 +4,42 @@
 
 <div class="container mx-auto mt-4">
     <div class="card text-center">
-		<h1>Liste des clients</h1>
-    <a href="{{path('app_clients_new')}}" class="btn btn-primary">Ajouter un client</a>
+        <div class="row">
+            <div class="col-2"><a href="{{path('app_clients_new')}}" class="btn btn-primary" id="add-customer">+</a>
+            </div>
+            </div>
+        </div>
     </div>
-    <div class="row mt-4">
-		  {{component('customer_search')}}
 
-		  {{component('all_customers')}}
+    <div class="row mt-4">
+        <div class="d-flex justify-content-center">
+        {{ knp_pagination_render(pagination) }}
+        </div>
+        {% for customer in pagination %}
+        <div class="col-xxl-3 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    {% if customer.avatar %}
+                    <img class="card-img-top" src="{{ vich_uploader_asset(customer, "imageFile") | imagine_filter('profile') }}" width="250" height="300" alt="Avatar">
+                    {% else %}
+                    <img src="https://api.lorem.space/image/movie?w=150&h=220" width="250" height="300" class="card-img-top" alt="avatar">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{path('app_client_show', {'id': customer.id })}}">
+                                {{customer.firstName}} {{customer.lastName}}
+                            </a>
+                        </h5>
+                        <a href="#" class="btn btn-primary">Info rendez-vous</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ knp_pagination_render(pagination) }}
     </div>
 </div>
 {% endblock %}
