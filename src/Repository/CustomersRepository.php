@@ -72,9 +72,8 @@ class CustomersRepository extends ServiceEntityRepository
       return [];
     }
     return $this->createQueryBuilder('p')
-      ->andWhere('p.firstName LIKE :query')
-      ->setParameter('query', '%' . $query . '%')
-      ->where('p.lastName LIKE :query')
+      ->where('p.firstName LIKE :query')
+      ->orWhere('p.lastName LIKE :query')
       ->setParameter('query', '%' . $query . '%')
       ->getQuery()
       ->getResult();

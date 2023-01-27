@@ -36,7 +36,6 @@ class CustomerController extends AbstractController
 
       $data = $customers->findByQuery($query);
     } else {
-
       $data = $customers->orderDesc();
     }
 
@@ -45,7 +44,7 @@ class CustomerController extends AbstractController
       $request->query->getInt('page', 1),
       8
     );
-
+    dump($pagination);
     return $this->render('customer/index.html.twig', [
       'pagination' => $pagination
     ]);
