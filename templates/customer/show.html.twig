@@ -25,7 +25,6 @@
         </div>
 
         <div class="col-md-8">
-
           <div class="card">
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
@@ -36,12 +35,12 @@
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Editer le profile</button>
                 </li>
 
               </ul>
               <div class="tab-content pt-2">
-
+                <!-- Profile details-->
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
                   
                   <h5 class="card-title">Profile Details</h5>
@@ -76,56 +75,52 @@
                     <div class="col-lg-9 col-md-8">{{customer.email | default}}</div>
                   </div>
 
-                </div>
+                </div><!-- End Profile details -->
 
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
                   {{form_start(form, {'enctype' :"multipart/form-data"})}}
                     <div class="row mb-3">
-                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                      <div class="col-md-8 col-lg-9">
+                      <div class="col">
                         {{form_row(form.imageFile)}}
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                      <div class="col-md-8 col-lg-9">
+                      <div class="col">
                         {{form_row(form.firstName)}}
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                      <div class="col-md-8 col-lg-9">
+                      <div class="col">
                         {{form_row(form.lastName)}}
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                      <div class="col-md-8 col-lg-9">
+                      <div class="col">
                         {{form_row(form.address)}}
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                      <div class="col-md-8 col-lg-9">
+
+                      <div class="col">
                         {{form_row(form.zipCode)}}
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Tel</label>
-                      <div class="col-md-8 col-lg-9">
+  
+                      <div class="col">
                         {{form_row(form.phone)}}
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                      <div class="col-md-8 col-lg-9">
+                     
+                      <div class="col">
                         {{form_row(form.email)}}
                       </div>
                     </div>

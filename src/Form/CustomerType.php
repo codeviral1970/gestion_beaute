@@ -81,7 +81,7 @@ class CustomerType extends AbstractType
       ->add('submit', SubmitType::class, [
         'label' => 'Enregistrer',
         'attr' => [
-          'class' => 'btn btn-success mt-4',
+          'class' => 'btn btn-primary mt-4',
         ],
       ]);
   }

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ImageController!{% endblock %}
+
+{% block body %}
+<div class="card-body">
+    <h5 class="card-title">Récente soin</h5>
+
+    <table class="table table-borderless datatable">
+        <thead>
+            <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Nom image</th>
+            <th scope="col">Utilisateur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for img in image %}
+            <tr>
+            <th scope="row">{{img.updatedAt | format_datetime('short', 'none', locale='fr')}}</th>
+            <td>{{img.user.email}}</td>
+            <td><a href="{{path('app_image_edit', {'id': img.id})}}" class="text-primary">{{img.imageName}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

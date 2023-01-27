@@ -26,17 +26,36 @@ class CustomersRepository extends ServiceEntityRepository
     parent::__construct($registry, Customers::class);
   }
 
+  public function countCustomers(): int
+  {
+    return $this->createQueryBuilder('c')
+      ->select('count(c.id)')
+      ->getQuery()
+      ->getSingleScalarResult();
+  }
+
+  public function orderDesc()
+  {
+    return $this->createQueryBuilder('c')
+      ->orderBy('c.createdAt', 'DESC')
+      ->getQuery()
+      ->getResult();
+  }
+
   /**
    * @param int $page
    * @return PaginatorInterface
    */
-  public function findByPage(int $page): PaginationInterface
+  public function findPage(int $page): PaginationInterface
   {
-    $data = $this->createQueryBuilder('p')
-      ->andWhere('p.firstName LIKE :query')
-      ->setParameter('query', '%' . $page . '%')
-      ->getQuery()
-      ->getResult();
+    // $data = $this->createQueryBuilder('p')
+    //   ->andWhere('p.firstName LIKE :query')
+    //   ->setParameter('query', '%' . $page . '%')
+    //   ->getQuery()
+    //   ->getResult();
+    $repository = $this->getDoctrine()->getRepository(Customers::class);
+    $query = $repository->createQueryBuilder('e')->getQuery();
+    $data = $query->getResult();
 
     $customer = $this->paginatorInterface->paginate(
       $data,
@@ -54,6 +73,8 @@ class CustomersRepository extends ServiceEntityRepository
     }
     return $this->createQueryBuilder('p')
       ->andWhere('p.firstName LIKE :query')
+      ->setParameter('query', '%' . $query . '%')
+      ->where('p.lastName LIKE :query')
       ->setParameter('query', '%' . $query . '%')
       ->getQuery()
       ->getResult();
