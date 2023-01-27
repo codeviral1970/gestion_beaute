@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block title 'Gestion | clients' %}
+
 {% block body %}
 
 <div class="container mx-auto mt-4">
-    <div class="card text-center">
-        <div class="row">
-            <div class="col-2"><a href="{{path('app_clients_new')}}" class="btn btn-primary" id="add-customer">+</a>
-            </div>
-            </div>
+
+    <div class="row">
+        <div class="col-2"><a href="{{path('app_clients_new')}}" class="btn btn-outline-primary" id="add-customer">+</a>
+        </div>
         </div>
     </div>
-
+    
     <div class="row mt-4">
         <div class="d-flex justify-content-center">
         {{ knp_pagination_render(pagination) }}
@@ -28,10 +29,10 @@
                     <div class="card-body">
                         <h5 class="card-title">
                             <a href="{{path('app_client_show', {'id': customer.id })}}">
-                                {{customer.firstName}} {{customer.lastName}}
+                                {{customer.firstName | capitalize}} {{customer.lastName | capitalize}}
                             </a>
                         </h5>
-                        <a href="#" class="btn btn-primary">Info rendez-vous</a>
+                        <a href="{{path('app_client_show', {'id': customer.id })}}" class="btn btn-outline-primary">Plus info</a>
                     </div>
                 </div>
             </div>
