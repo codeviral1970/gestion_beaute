@@ -88,7 +88,7 @@ class UserType extends AbstractType
       ->add('submit', SubmitType::class, [
         'label' => 'Enregistrer',
         'attr' => [
-          'class' => 'btn btn-primary mt-3',
+          'class' => 'btn btn-outline-primary mt-3',
         ],
       ]);
   }

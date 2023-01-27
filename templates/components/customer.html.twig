@@ -28,7 +28,7 @@
                     {{this.customers.firstName}} {{this.customers.lastName}}
                 </a>
             </h5>
-            <a href="#" class="btn btn-primary">Info rendez-vous</a>
+            <a href="{{path('app_client_show', {'id': this.id })}}" class="btn btn-outline-primary">Info rendez-vous</a>
         </div>
         </div>
     </div>
