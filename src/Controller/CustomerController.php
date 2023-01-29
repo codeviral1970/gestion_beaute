@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Entity\History;
 use App\Entity\Customers;
-use App\Entity\SearchCustomer;
 use App\Form\HistoryType;
 use App\Form\CustomerType;
+use App\Entity\SearchCustomer;
+use App\Services\FileUploader;
+use App\Entity\ImgHistorySlide;
 use App\Form\SearchCustomerType;
-use App\Repository\CustomersRepository;
+use App\Form\ImgHistorySlideType;
 use App\Repository\HistoryRepository;
+use App\Repository\CustomersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -84,18 +87,29 @@ class CustomerController extends AbstractController
     EntityManagerInterface $em,
     Request $request,
     HistoryRepository $historyAll,
+    FileUploader $fileUploader,
     $id
   ): Response {
 
     $history = new History();
-    $historyAll = $historyAll->historyOrderByDesc();
-    //dd($historyAll);
+    $slides = new ImgHistorySlide();
+
+    $historyAll = $historyAll->findAll();
+
     $customer = $customers->find($id);
 
+    //Formulaire pour la modification du client
     $form = $this->createForm(CustomerType::class, $customer);
+
+    //History formulaire pour créer l'historique des soins de l'utilsateur.
     $historyForm = $this->createForm(HistoryType::class, $history);
+
+    //Formulaire pour ajouter les images pour le slide dans le form history
+    $slideForm = $this->createForm(ImgHistorySlideType::class, $slides);
+
     $form->handleRequest($request);
     $historyForm->handleRequest($request);
+    $slideForm->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em->persist($customer);
@@ -104,7 +118,16 @@ class CustomerController extends AbstractController
     }
 
     if ($historyForm->isSubmitted() && $historyForm->isValid()) {
+      $file = $historyForm->get('imgHistorySlides')->getData();
+      //dd($slides);
+
+      //$newFilename = $fileUploader->upload($file);
+
+
+
       $historySoin = $history->addCustomer($customer);
+      // dd($newFilename);
+      //$historySoin = $history->addImgHistorySlide($newFilename);
       $em->persist($historySoin);
       $em->flush();
       return $this->redirectToRoute('app_clients');
@@ -114,7 +137,7 @@ class CustomerController extends AbstractController
       'customer' => $customer,
       'form' => $form->createView(),
       'historyForm' => $historyForm->createView(),
-      'historyAll' => $historyAll
+      // 'historyAll' => $historyAll
     ]);
   }
 

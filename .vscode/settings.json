@@ -10,5 +10,6 @@
     "html.format.indentHandlebars": true,
     "files.autoSave": "onFocusChange",
     "prettier.tabWidth": "4",
-    "php.validate.executablePath": ""
+    "php.validate.executablePath": "",
+    "CodeGPT.query.language": "French"
 }

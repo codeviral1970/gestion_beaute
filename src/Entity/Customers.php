@@ -75,6 +75,11 @@ class Customers
     $this->historySoin = new ArrayCollection();
   }
 
+  // public function __toString()
+  // {
+  //   return $this->historySoin;
+  // }
+
   public function getId(): ?int
   {
     return $this->id;
