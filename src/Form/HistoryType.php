@@ -34,13 +34,13 @@ class HistoryType extends AbstractType
           'class' => 'col-lg-9 col-md-8 form-control mb-2',
         ]
       ])
-      ->add('image', FileType::class, [
-        'label' => 'Ajouter des photos',
-        'label_attr' => [
-          'class' => 'col-md-8 col-lg-9',
-        ],
-        'required' => false
-      ])
+      // ->add('image', FileType::class, [
+      //   'label' => 'Ajouter des photos',
+      //   'label_attr' => [
+      //     'class' => 'col-md-8 col-lg-9',
+      //   ],
+      //   'required' => false
+      // ])
       ->add('submit', SubmitType::class, [
         'label' => 'Enregistrer',
         'attr' => [
