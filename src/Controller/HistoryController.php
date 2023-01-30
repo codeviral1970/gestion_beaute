@@ -20,7 +20,7 @@ class HistoryController extends AbstractController
 
     $historyForm = $this->createForm(HistoryType::class, $history);
     $historyForm->handleRequest($request);
-    return $this->render('cutomer/_history.html.twig', [
+    return $this->render('customer/_history.html.twig', [
       'form' => $historyForm->createView(),
       'mes' => $mes
     ]);
