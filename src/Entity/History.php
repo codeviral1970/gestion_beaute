@@ -8,12 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+// use Symfony\Component\HttpFoundation\File\File;
+// use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: HistoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
+
 class History
 {
   #[ORM\Id]
@@ -160,28 +160,28 @@ class History
    */
   public function getImgHistorySlides(): Collection
   {
-      return $this->imgHistorySlides;
+    return $this->imgHistorySlides;
   }
 
   public function addImgHistorySlide(ImgHistorySlide $imgHistorySlide): self
   {
-      if (!$this->imgHistorySlides->contains($imgHistorySlide)) {
-          $this->imgHistorySlides->add($imgHistorySlide);
-          $imgHistorySlide->setHistorySlide($this);
-      }
+    if (!$this->imgHistorySlides->contains($imgHistorySlide)) {
+      $this->imgHistorySlides->add($imgHistorySlide);
+      $imgHistorySlide->setHistorySlide($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removeImgHistorySlide(ImgHistorySlide $imgHistorySlide): self
   {
-      if ($this->imgHistorySlides->removeElement($imgHistorySlide)) {
-          // set the owning side to null (unless already changed)
-          if ($imgHistorySlide->getHistorySlide() === $this) {
-              $imgHistorySlide->setHistorySlide(null);
-          }
+    if ($this->imgHistorySlides->removeElement($imgHistorySlide)) {
+      // set the owning side to null (unless already changed)
+      if ($imgHistorySlide->getHistorySlide() === $this) {
+        $imgHistorySlide->setHistorySlide(null);
       }
+    }
 
-      return $this;
+    return $this;
   }
 }

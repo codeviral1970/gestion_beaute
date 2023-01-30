@@ -7,14 +7,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
+// use Vich\UploaderBundle\Mapping\Annotation as Vich;
+// use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
+
 #[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {

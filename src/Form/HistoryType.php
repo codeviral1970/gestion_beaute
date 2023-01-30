@@ -38,12 +38,12 @@ class HistoryType extends AbstractType
           'class' => 'col-lg-9 col-md-8 form-control mb-2',
         ]
       ])
-      ->add('imgHistorySlides', FileType::class, [
-        'label' => false,
-        'multiple' => true,
-        'mapped' => false,
-        'required' => false
-      ])
+      // ->add('imgHistorySlides', FileType::class, [
+      //   'label' => false,
+      //   'multiple' => true,
+      //   'mapped' => false,
+      //   'required' => false
+      // ])
       // ->add('imageFile', VichImageType::class, [
       //   'label' => 'Photo',
       //   'download_uri' => false,

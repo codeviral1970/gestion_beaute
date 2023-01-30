@@ -4,11 +4,11 @@ namespace App\Entity;
 
 use App\Repository\ImgHistorySlideRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+// use Symfony\Component\HttpFoundation\File\File;
+// use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ImgHistorySlideRepository::class)]
-#[Vich\Uploadable]
+
 #[ORM\HasLifecycleCallbacks]
 class ImgHistorySlide
 {
@@ -65,13 +65,13 @@ class ImgHistorySlide
 
   public function getHistorySlide(): ?History
   {
-      return $this->historySlide;
+    return $this->historySlide;
   }
 
   public function setHistorySlide(?History $historySlide): self
   {
-      $this->historySlide = $historySlide;
+    $this->historySlide = $historySlide;
 
-      return $this;
+    return $this;
   }
 }
