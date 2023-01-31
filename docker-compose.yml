@@ -3,37 +3,26 @@ version: '3,7'
 services:
   
 ###> doctrine/doctrine-bundle ###
-  mysql:
+  database:
     image: mysql
-    container_name: docker-mysql
     restart: always
     ports:
-      - "3306:3306"
+      - "3306"
     environment:
       MYSQL_DATABASE: gestion_beaute_docker
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: docker
       MYSQL_PASSWORD: docker
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
-
-
   phpmyadmin:
     image: phpmyadmin
-    container_name: docker-phpmyadmin
+    container_name: docker_phpmyadmin
     restart: always
     depends_on: 
-      - mysql
+      - database
     ports:
       - 8080:80
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: database
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
-###< doctrine/doctrine-bundle ###
+  

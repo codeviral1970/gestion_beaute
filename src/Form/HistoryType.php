@@ -38,6 +38,7 @@ class HistoryType extends AbstractType
           'class' => 'col-lg-9 col-md-8 form-control mb-2',
         ]
       ])
+      
       // ->add('imgHistorySlides', FileType::class, [
       //   'label' => false,
       //   'multiple' => true,
@@ -47,6 +48,15 @@ class HistoryType extends AbstractType
       // ->add('imageFile', VichImageType::class, [
       //   'label' => 'Photo',
       //   'download_uri' => false,
+      //   'required' => false
+      // ])
+
+
+      // ->add('image', FileType::class, [
+      //   'label' => 'Ajouter des photos',
+      //   'label_attr' => [
+      //     'class' => 'col-md-8 col-lg-9',
+      //   ],
       //   'required' => false
       // ])
 
