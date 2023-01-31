@@ -73,11 +73,11 @@ class CustomerType extends AbstractType
           'class' => 'col-lg-9 col-md-8 form-control mb-2',
         ],
       ])
-      // ->add('imageFile', VichImageType::class, [
-      //   'label' => 'Photo',
-      //   'download_uri' => false,
-      //   'required' => false
-      // ])
+      ->add('imageFile', VichImageType::class, [
+        'label' => 'Photo',
+        'download_uri' => false,
+        'required' => false
+      ])
       ->add('submit', SubmitType::class, [
         'label' => 'Enregistrer',
         'attr' => [

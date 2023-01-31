@@ -9,13 +9,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-// use Symfony\Component\HttpFoundation\File\File;
-// use Symfony\Component\HttpFoundation\File\UploadedFile;
-// use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: CustomersRepository::class)]
-
+#[Vich\Uploadable]
 #[ORM\Index(name: 'customers_idx', columns: ['first_name', 'last_name', 'email', 'phone'], flags: ['fulltext'])]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity('email')]
@@ -54,8 +54,8 @@ class Customers
   private ?string $avatar = null;
 
   // NOTE: This is not a mapped field of entity metadata, just a simple property.
-  // #[Vich\UploadableField(mapping: 'clients', fileNameProperty: 'avatar')]
-  // private ?File $imageFile = null;
+  #[Vich\UploadableField(mapping: 'clients', fileNameProperty: 'avatar')]
+  private ?File $imageFile = null;
 
   #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
   private $createdAt;
@@ -175,30 +175,30 @@ class Customers
     return $this;
   }
 
-  // /**
-  //  * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-  //  * of 'UploadedFile' is injected into this setter to trigger the update. If this
-  //  * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-  //  * must be able to accept an instance of 'File' as the bundle will inject one here
-  //  * during Doctrine hydration.
-  //  *
-  //  * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-  //  */
-  // public function setImageFile(?File $imageFile = null): void
-  // {
-  //   $this->imageFile = $imageFile;
+  /**
+   * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+   * of 'UploadedFile' is injected into this setter to trigger the update. If this
+   * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+   * must be able to accept an instance of 'File' as the bundle will inject one here
+   * during Doctrine hydration.
+   *
+   * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+   */
+  public function setImageFile(?File $imageFile = null): void
+  {
+    $this->imageFile = $imageFile;
 
-  //   if (null !== $imageFile) {
-  //     // It is required that at least one field changes if you are using doctrine
-  //     // otherwise the event listeners won't be called and the file is lost
-  //     $this->updatedAt = new \DateTimeImmutable();
-  //   }
-  // }
+    if (null !== $imageFile) {
+      // It is required that at least one field changes if you are using doctrine
+      // otherwise the event listeners won't be called and the file is lost
+      $this->updatedAt = new \DateTimeImmutable();
+    }
+  }
 
-  // public function getImageFile(): ?File
-  // {
-  //   return $this->imageFile;
-  // }
+  public function getImageFile(): ?File
+  {
+    return $this->imageFile;
+  }
 
   #[ORM\PrePersist]
   public function onPrePersist()
