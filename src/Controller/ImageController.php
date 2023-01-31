@@ -65,7 +65,7 @@ class ImageController extends AbstractController
     if ($form->isSubmitted() && $form->isValid()) {
 
       $data = $serializer->normalize($image, null, [AbstractNormalizer::ATTRIBUTES => ['imageName']]);
-      $em->persist($data);
+      $em->persist($image);
       $em->flush();
 
       return $this->redirectToRoute('app_image');

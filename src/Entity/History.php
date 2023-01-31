@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+// use Symfony\Component\HttpFoundation\File\File;
+// use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: HistoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+
 class History
 {
   #[ORM\Id]
@@ -36,12 +39,17 @@ class History
   #[ORM\ManyToMany(targetEntity: Customers::class, mappedBy: 'historySoin')]
   private Collection $customers;
 
+  #[ORM\OneToMany(mappedBy: 'historySlide', targetEntity: ImgHistorySlide::class)]
+  private Collection $imgHistorySlides;
+
   public function __construct()
   {
     $this->createdAt = new \DateTimeImmutable();
     $this->updatedAt = new \DateTimeImmutable();
     $this->customers = new ArrayCollection();
+    $this->imgHistorySlides = new ArrayCollection();
   }
+
 
   #[ORM\PrePersist]
   public function onPrePersist()
@@ -125,25 +133,55 @@ class History
    */
   public function getCustomers(): Collection
   {
-      return $this->customers;
+    return $this->customers;
   }
 
   public function addCustomer(Customers $customer): self
   {
-      if (!$this->customers->contains($customer)) {
-          $this->customers->add($customer);
-          $customer->addHistorySoin($this);
-      }
+    if (!$this->customers->contains($customer)) {
+      $this->customers->add($customer);
+      $customer->addHistorySoin($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removeCustomer(Customers $customer): self
   {
-      if ($this->customers->removeElement($customer)) {
-          $customer->removeHistorySoin($this);
-      }
+    if ($this->customers->removeElement($customer)) {
+      $customer->removeHistorySoin($this);
+    }
 
-      return $this;
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, ImgHistorySlide>
+   */
+  public function getImgHistorySlides(): Collection
+  {
+    return $this->imgHistorySlides;
+  }
+
+  public function addImgHistorySlide(ImgHistorySlide $imgHistorySlide): self
+  {
+    if (!$this->imgHistorySlides->contains($imgHistorySlide)) {
+      $this->imgHistorySlides->add($imgHistorySlide);
+      $imgHistorySlide->setHistorySlide($this);
+    }
+
+    return $this;
+  }
+
+  public function removeImgHistorySlide(ImgHistorySlide $imgHistorySlide): self
+  {
+    if ($this->imgHistorySlides->removeElement($imgHistorySlide)) {
+      // set the owning side to null (unless already changed)
+      if ($imgHistorySlide->getHistorySlide() === $this) {
+        $imgHistorySlide->setHistorySlide(null);
+      }
+    }
+
+    return $this;
   }
 }

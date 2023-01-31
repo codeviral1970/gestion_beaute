@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="card-body">
-    <h5 class="card-title">Récente soin</h5>
+    <h5 class="card-title">Photo de mon profile</h5>
 
     <table class="table table-borderless datatable">
         <thead>
@@ -19,7 +19,8 @@
             <tr>
             <th scope="row">{{img.updatedAt | format_datetime('short', 'none', locale='fr')}}</th>
             <td>{{img.user.email}}</td>
-            <td><a href="{{path('app_image_edit', {'id': img.id})}}" class="text-primary">{{img.imageName}}</a></td>
+            {# <td><a href="{{path('app_image_edit', {'id': img.id})}}" class="text-primary">{{img.imageName}}</a></td> #}
+            <td><img src="{{ vich_uploader_asset(img) | imagine_filter('profile') }}" alt=""></td>
             </tr>
             {% endfor %}
         </tbody>

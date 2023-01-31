@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+
 #[ORM\Entity(repositoryClass: CustomersRepository::class)]
 #[Vich\Uploadable]
 #[ORM\Index(name: 'customers_idx', columns: ['first_name', 'last_name', 'email', 'phone'], flags: ['fulltext'])]
@@ -74,6 +75,11 @@ class Customers
 
     $this->historySoin = new ArrayCollection();
   }
+
+  // public function __toString()
+  // {
+  //   return $this->historySoin;
+  // }
 
   public function getId(): ?int
   {

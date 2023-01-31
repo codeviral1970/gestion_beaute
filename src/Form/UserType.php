@@ -74,17 +74,17 @@ class UserType extends AbstractType
           'class' => 'form-control',
         ],
       ])
-      ->add('userAvatar', EntityType::class, [
-        'class' => Image::class,
-        'choice_label' => 'imageName',
-        'label' => 'Photo profil',
-        'label_attr' => [
-          'class' => 'col-sm-2 col-form-label'
-        ],
-        'attr' => [
-          'class' => 'form-select'
-        ]
-      ])
+      // ->add('userAvatar', EntityType::class, [
+      //   'class' => Image::class,
+      //   'choice_label' => 'imageName',
+      //   'label' => 'Photo profil',
+      //   'label_attr' => [
+      //     'class' => 'col-sm-2 col-form-label'
+      //   ],
+      //   'attr' => [
+      //     'class' => 'form-select'
+      //   ]
+      // ])
       ->add('submit', SubmitType::class, [
         'label' => 'Enregistrer',
         'attr' => [
