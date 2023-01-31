@@ -100,7 +100,8 @@
     "fix": "php-cs-fixer fix",
     "check": [
       "php-cs-fixer fix --dry-run --diff"
-    ]
+    ],
+    "test": "php bin/phpunit"
   },
   "conflict": {
     "symfony/symfony": "*"
