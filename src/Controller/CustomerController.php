@@ -105,11 +105,11 @@ class CustomerController extends AbstractController
     $historyForm = $this->createForm(HistoryType::class, $history);
 
     //Formulaire pour ajouter les images pour le slide dans le form history
-    $slideForm = $this->createForm(ImgHistorySlideType::class, $slides);
+    //$slideForm = $this->createForm(ImgHistorySlideType::class, $slides);
 
     $form->handleRequest($request);
     $historyForm->handleRequest($request);
-    $slideForm->handleRequest($request);
+    //$slideForm->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em->persist($customer);
@@ -118,7 +118,7 @@ class CustomerController extends AbstractController
     }
 
     if ($historyForm->isSubmitted() && $historyForm->isValid()) {
-      $file = $historyForm->get('imgHistorySlides')->getData();
+      //$file = $historyForm->get('imgHistorySlides')->getData();
       //dd($slides);
 
       //$newFilename = $fileUploader->upload($file);
