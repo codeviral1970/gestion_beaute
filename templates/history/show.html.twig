@@ -4,12 +4,12 @@
 
 {% block body %}
 
-{{dump(historyRepo)}}
+{{dump(history)}}
  <!-- Card with an image on bottom -->
 <div class="card w-50">
 	<div class="card-body">
-		<h5 class="card-title">{{historyRepo.service}}</h5>
-		<p class="card-text">Crée le : {{historyRepo.createdAt | date("d/m/Y")}}</p>
+		<h5 class="card-title">{{history.service}}</h5>
+		<p class="card-text">Crée le : {{history.createdAt | date("d/m/Y")}}</p>
 	</div>
 	<!-- Slides with indicators -->
 	<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">

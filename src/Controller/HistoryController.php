@@ -20,4 +20,12 @@ class HistoryController extends AbstractController
     return $this->render('cutomer/_history.html.twig', []);
   }
 
+  #[Route('/history/show/{id}', name: 'app_history_show')]
+  public function show(Request $request, HistoryRepository $history, $id): Response
+  {
+    $history = $history->find($id);
+    return $this->render('history/show.html.twig', [
+      'history' => $history
+    ]);
+  }
 }
