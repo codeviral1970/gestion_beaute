@@ -26,7 +26,7 @@
                     {% if customer.avatar %}
                     <img class="card-img-top" src="{{ vich_uploader_asset(customer, "imageFile") | imagine_filter('profile') }}" width="250" height="300" alt="Avatar">
                     {% else %}
-                    <img src="https://api.lorem.space/image/movie?w=150&h=220" width="250" height="300" class="card-img-top" alt="avatar">
+                    <img src="{{asset('../build/images/avatar.jpg')}}" width="250" height="300" class="card-img-top" alt="avatar">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">
