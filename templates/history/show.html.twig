@@ -4,15 +4,28 @@
 
 {% block body %}
 
-{{dump(history)}}
+
  <!-- Card with an image on bottom -->
 <div class="card w-50">
 	<div class="card-body">
+		<div class="d-flex justify-content-between align-items-center">
 		<h5 class="card-title">{{history.service}}</h5>
+		{% for c in history.customers %}
+		<a href="{{path('app_client_show', {'id': c.id})}}" class="btn btn-outline-primary p-1">Retour</a>
+		{% endfor %}
+		</div>
 		<p class="card-text">Crée le : {{history.createdAt | date("d/m/Y")}}</p>
+		<div>
+			
+			{% if vich_uploader_asset(history, 'imageFile') is null %}
+				<img src="https://picsum.photos/200/300" alt="Avatar">
+			{% else %}
+				<img src="{{ vich_uploader_asset(history, "imageFile") | imagine_filter('profile') }}" alt="Avatar">
+			{% endif %}
+		</div>
 	</div>
 	<!-- Slides with indicators -->
-	<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+	{# <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 		<div class="carousel-indicators">
 			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -39,6 +52,7 @@
 			<span class="visually-hidden">Next</span>
 		</button>
 
-	</div><!-- End Slides with indicators -->
+	</div> #}
+	<!-- End Slides with indicators -->
 </div><!-- End Card with an image on bottom -->
 {% endblock %}

@@ -31,8 +31,6 @@ class CustomerController extends AbstractController
     EntityManagerInterface $em
   ): Response {
 
-
-
     if ($request->isMethod('POST')) {
 
       $query = $request->get('query');
@@ -92,7 +90,6 @@ class CustomerController extends AbstractController
   ): Response {
 
     $history = new History();
-    $slides = new ImgHistorySlide();
 
     $historyAll = $historyAll->findAll();
 
@@ -104,12 +101,8 @@ class CustomerController extends AbstractController
     //History formulaire pour créer l'historique des soins de l'utilsateur.
     $historyForm = $this->createForm(HistoryType::class, $history);
 
-    //Formulaire pour ajouter les images pour le slide dans le form history
-    //$slideForm = $this->createForm(ImgHistorySlideType::class, $slides);
-
     $form->handleRequest($request);
     $historyForm->handleRequest($request);
-    //$slideForm->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em->persist($customer);
@@ -118,16 +111,8 @@ class CustomerController extends AbstractController
     }
 
     if ($historyForm->isSubmitted() && $historyForm->isValid()) {
-      //$file = $historyForm->get('imgHistorySlides')->getData();
-      //dd($slides);
-
-      //$newFilename = $fileUploader->upload($file);
-
-
 
       $historySoin = $history->addCustomer($customer);
-      // dd($newFilename);
-      //$historySoin = $history->addImgHistorySlide($newFilename);
       $em->persist($historySoin);
       $em->flush();
       return $this->redirectToRoute('app_clients');
@@ -136,8 +121,7 @@ class CustomerController extends AbstractController
     return $this->render('customer/show.html.twig', [
       'customer' => $customer,
       'form' => $form->createView(),
-      'historyForm' => $historyForm->createView(),
-      // 'historyAll' => $historyAll
+      'historyForm' => $historyForm->createView()
     ]);
   }
 

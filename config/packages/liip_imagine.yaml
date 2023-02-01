@@ -8,7 +8,6 @@ liip_imagine:
 
     filter_sets:
         cache: ~
-
         profile:
             quality: 75
             filters:

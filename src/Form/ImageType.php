@@ -25,7 +25,7 @@ class ImageType extends AbstractType
           'class' => '',
         ],
         'attr' => [
-          'class' => 'btn btn-primary btn-sm bi bi-upload mt-1 mb-1'
+          'class' => 'btn btn-primary btn-sm mt-1 mb-1'
         ],
       ])
       ->add('user', EntityType::class, [

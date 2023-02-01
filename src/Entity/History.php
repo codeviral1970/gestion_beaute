@@ -8,12 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-// use Symfony\Component\HttpFoundation\File\File;
-// use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: HistoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-
+#[Vich\Uploadable]
 class History
 {
   #[ORM\Id]
@@ -39,15 +39,19 @@ class History
   #[ORM\ManyToMany(targetEntity: Customers::class, mappedBy: 'historySoin')]
   private Collection $customers;
 
-  #[ORM\OneToMany(mappedBy: 'historySlide', targetEntity: ImgHistorySlide::class)]
-  private Collection $imgHistorySlides;
+  // NOTE: This is not a mapped field of entity metadata, just a simple property.
+  #[Vich\UploadableField(mapping: 'slide', fileNameProperty: 'image')]
+  private ?File $imageFile = null;
+
+  // #[ORM\OneToMany(mappedBy: 'historySlide', targetEntity: ImgHistorySlide::class)]
+  // private Collection $imgHistorySlides;
 
   public function __construct()
   {
     $this->createdAt = new \DateTimeImmutable();
     $this->updatedAt = new \DateTimeImmutable();
     $this->customers = new ArrayCollection();
-    $this->imgHistorySlides = new ArrayCollection();
+    // $this->imgHistorySlides = new ArrayCollection();
   }
 
 
@@ -156,32 +160,27 @@ class History
   }
 
   /**
-   * @return Collection<int, ImgHistorySlide>
+   * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+   * of 'UploadedFile' is injected into this setter to trigger the update. If this
+   * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+   * must be able to accept an instance of 'File' as the bundle will inject one here
+   * during Doctrine hydration.
+   *
+   * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
    */
-  public function getImgHistorySlides(): Collection
+  public function setImageFile(?File $imageFile = null): void
   {
-    return $this->imgHistorySlides;
+    $this->imageFile = $imageFile;
+
+    if (null !== $imageFile) {
+      // It is required that at least one field changes if you are using doctrine
+      // otherwise the event listeners won't be called and the file is lost
+      $this->updatedAt = new \DateTimeImmutable();
+    }
   }
 
-  public function addImgHistorySlide(ImgHistorySlide $imgHistorySlide): self
+  public function getImageFile(): ?File
   {
-    if (!$this->imgHistorySlides->contains($imgHistorySlide)) {
-      $this->imgHistorySlides->add($imgHistorySlide);
-      $imgHistorySlide->setHistorySlide($this);
-    }
-
-    return $this;
-  }
-
-  public function removeImgHistorySlide(ImgHistorySlide $imgHistorySlide): self
-  {
-    if ($this->imgHistorySlides->removeElement($imgHistorySlide)) {
-      // set the owning side to null (unless already changed)
-      if ($imgHistorySlide->getHistorySlide() === $this) {
-        $imgHistorySlide->setHistorySlide(null);
-      }
-    }
-
-    return $this;
+    return $this->imageFile;
   }
 }
