@@ -16,45 +16,45 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class HistoryRepository extends ServiceEntityRepository
 {
-  public function __construct(ManagerRegistry $registry)
-  {
-    parent::__construct($registry, History::class);
-  }
-
-  public function findLastFiveHistory()
-  {
-    return $this->createQueryBuilder('n')
-      ->orderBy('n.createdAt', 'DESC')
-      ->setMaxResults(5)
-      ->getQuery()
-      ->getResult();
-  }
-
-  public function historyOrderByDesc()
-  {
-    return $this->createQueryBuilder('h')
-      ->orderBy('h.createdAt', 'DESC')
-      ->getQuery()
-      ->getResult();
-  }
-
-  public function save(History $entity, bool $flush = false): void
-  {
-    $this->getEntityManager()->persist($entity);
-
-    if ($flush) {
-      $this->getEntityManager()->flush();
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, History::class);
     }
-  }
 
-  public function remove(History $entity, bool $flush = false): void
-  {
-    $this->getEntityManager()->remove($entity);
-
-    if ($flush) {
-      $this->getEntityManager()->flush();
+    public function findLastFiveHistory()
+    {
+        return $this->createQueryBuilder('n')
+          ->orderBy('n.createdAt', 'DESC')
+          ->setMaxResults(5)
+          ->getQuery()
+          ->getResult();
     }
-  }
+
+    public function historyOrderByDesc()
+    {
+        return $this->createQueryBuilder('h')
+          ->orderBy('h.createdAt', 'DESC')
+          ->getQuery()
+          ->getResult();
+    }
+
+    public function save(History $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(History $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
   //    /**
   //     * @return History[] Returns an array of History objects

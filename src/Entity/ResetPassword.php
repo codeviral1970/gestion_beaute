@@ -1,20 +1,19 @@
 <?php
 
 namespace App\Entity;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ResetPassword
 {
-
-    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
+    #[Assert\NotBlank(message: 'Ce champ ne peut être vide')]
     private ?string $oldPassword = null;
 
-    #[Assert\NotBlank(message:"Ce champ ne peut être vide")]
+    #[Assert\NotBlank(message: 'Ce champ ne peut être vide')]
     private ?string $newPassword = null;
 
-    #[Assert\EqualTo(propertyPath:"newPassword", message:"Les mots de passe ne correspond pas !")]
+    #[Assert\EqualTo(propertyPath: 'newPassword', message: 'Les mots de passe ne correspond pas !')]
     private ?string $confirmPassword = null;
-
 
     public function getOldPassword(): ?string
     {

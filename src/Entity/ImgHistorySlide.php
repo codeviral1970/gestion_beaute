@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ImgHistorySlideRepository;
 use Doctrine\ORM\Mapping as ORM;
+
 // use Symfony\Component\HttpFoundation\File\File;
 // use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -11,66 +12,64 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class ImgHistorySlide
 {
-  #[ORM\Id]
-  #[ORM\GeneratedValue]
-  #[ORM\Column]
-  private ?int $id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-  #[ORM\Column(length: 255)]
-  private ?string $slideName = null;
+    #[ORM\Column(length: 255)]
+    private ?string $slideName = null;
 
-  #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
-  private $updatedAt;
+    #[ORM\Column(length: 255, type: 'datetime', nullable: true)]
+    private $updatedAt;
 
-  #[ORM\ManyToOne(inversedBy: 'imgHistorySlides')]
-  private ?History $historySlide = null;
+    #[ORM\ManyToOne(inversedBy: 'imgHistorySlides')]
+    private ?History $historySlide = null;
 
+    #[ORM\PreUpdate]
+    public function onPreUpdate()
+    {
+        $this->updatedAt = (new \DateTimeImmutable());
+    }
 
-  #[ORM\PreUpdate]
-  public function onPreUpdate()
-  {
-    $this->updatedAt = (new \DateTimeImmutable());
-  }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-  public function getId(): ?int
-  {
-    return $this->id;
-  }
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
 
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
-  public function getUpdatedAt(): ?\DateTimeInterface
-  {
-    return $this->updatedAt;
-  }
+        return $this;
+    }
 
-  public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-  {
-    $this->updatedAt = $updatedAt;
+    public function getSlideName()
+    {
+        return $this->slideName;
+    }
 
-    return $this;
-  }
+    public function setSlideName($slideName)
+    {
+        $this->slideName = $slideName;
 
-  public function getSlideName()
-  {
-    return $this->slideName;
-  }
+        return $this;
+    }
 
-  public function setSlideName($slideName)
-  {
-    $this->slideName = $slideName;
+    public function getHistorySlide(): ?History
+    {
+        return $this->historySlide;
+    }
 
-    return $this;
-  }
+    public function setHistorySlide(?History $historySlide): self
+    {
+        $this->historySlide = $historySlide;
 
-  public function getHistorySlide(): ?History
-  {
-    return $this->historySlide;
-  }
-
-  public function setHistorySlide(?History $historySlide): self
-  {
-    $this->historySlide = $historySlide;
-
-    return $this;
-  }
+        return $this;
+    }
 }
