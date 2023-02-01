@@ -47,9 +47,13 @@
                     <tr>
                       <th scope="row"><a href="#">{{h.createdAt | format_datetime('short', 'none', locale='fr')}}</a></th>
                       {% for c in h.customers %}
-                      <td><a href="#" class="text-primary">{{c.firstName}} {{c.lastName}}</a></td>
+                      <td><a href="{{path('app_client_show', {'id': c.id})}}" class="text-primary">{{c.firstName}} {{c.lastName}}</a></td>
                       {% endfor %}
-                      <td>{{h.service}}</td>
+                      <td>
+                      <a href="{{path('app_history_show', {'id': h.id})}}">
+                      {{h.service}}
+                      </a>
+                      </td>
                     </tr>
                     {% endfor %}
                   </tbody>

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\History;
 use App\Form\ImgHistorySlideType;
 use Symfony\Component\Form\AbstractType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -38,28 +39,12 @@ class HistoryType extends AbstractType
           'class' => 'col-lg-9 col-md-8 form-control mb-2',
         ]
       ])
-      
-      // ->add('imgHistorySlides', FileType::class, [
-      //   'label' => false,
-      //   'multiple' => true,
-      //   'mapped' => false,
-      //   'required' => false
-      // ])
-      // ->add('imageFile', VichImageType::class, [
-      //   'label' => 'Photo',
-      //   'download_uri' => false,
-      //   'required' => false
-      // ])
-
-
-      // ->add('image', FileType::class, [
-      //   'label' => 'Ajouter des photos',
-      //   'label_attr' => [
-      //     'class' => 'col-md-8 col-lg-9',
-      //   ],
-      //   'required' => false
-      // ])
-
+      ->add('imageFile', VichFileType::class, [
+        'label' => 'Photo',
+        'download_uri' => false,
+        'required' => false,
+        'asset_helper' => true
+      ])
       ->add('submit', SubmitType::class, [
         'label' => 'Enregistrer',
         'attr' => [

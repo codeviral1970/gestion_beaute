@@ -31,14 +31,14 @@ class ImageController extends AbstractController
     Image $image
   ): Response {
 
-    $serializer = new Serializer([new ObjectNormalizer()]);
+    // $serializer = new Serializer([new ObjectNormalizer()]);
 
     $form = $this->createForm(ImageType::class, $image);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $data = $serializer->normalize($image, null, [AbstractNormalizer::ATTRIBUTES => ['imageName']]);
+      // $data = $serializer->normalize($image, null, [AbstractNormalizer::ATTRIBUTES => ['imageName']]);
       $em->persist($image);
       $em->flush();
 
