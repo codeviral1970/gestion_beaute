@@ -16,60 +16,71 @@ use Symfony\Component\Serializer\Serializer;
 
 class ImageController extends AbstractController
 {
-    #[Route('/image', name: 'app_image')]
-    public function index(ImageRepository $imageRepo): Response
-    {
-        return $this->render('image/index.html.twig', [
-          'image' => $imageRepo->findAll(),
-        ]);
-    }
+  #[Route('/image', name: 'app_image')]
+  public function index(ImageRepository $imageRepo): Response
+  {
+    return $this->render('image/index.html.twig', [
+      'image' => $imageRepo->findAll(),
+    ]);
+  }
 
-    #[Route('/image/edit/{id}', name: 'app_image_edit')]
-    public function edit(
+  #[Route('/image/edit/{id}', name: 'app_image_edit')]
+  public function edit(
     Request $request,
     EntityManagerInterface $em,
     Image $image
   ): Response {
-        // $serializer = new Serializer([new ObjectNormalizer()]);
 
-        $form = $this->createForm(ImageType::class, $image);
-        $form->handleRequest($request);
+    $form = $this->createForm(ImageType::class, $image);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // $data = $serializer->normalize($image, null, [AbstractNormalizer::ATTRIBUTES => ['imageName']]);
-            $em->persist($image);
-            $em->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+      $em->persist($image);
+      $em->flush();
 
-            return $this->redirectToRoute('app_image');
-        }
-
-        return $this->render('image/edit.html.twig', [
-          'form' => $form->createView(),
-        ]);
+      return $this->redirectToRoute('app_image');
     }
 
-    #[Route('/image/new', name: 'app_image_new')]
-    public function new(
+    return $this->render('image/edit.html.twig', [
+      'form' => $form->createView(),
+    ]);
+  }
+
+  #[Route('/image/new', name: 'app_image_new')]
+  public function new(
     Request $request,
     EntityManagerInterface $em,
     ImageRepository $image
   ): Response {
-        $image = new Image();
-        $serializer = new Serializer([new ObjectNormalizer()]);
+    $image = new Image();
+    $serializer = new Serializer([new ObjectNormalizer()]);
 
-        $form = $this->createForm(ImageType::class, $image);
-        $form->handleRequest($request);
+    $form = $this->createForm(ImageType::class, $image);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $serializer->normalize($image, null, [AbstractNormalizer::ATTRIBUTES => ['imageName']]);
-            $em->persist($image);
-            $em->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+      $data = $serializer->normalize($image, null, [AbstractNormalizer::ATTRIBUTES => ['imageName']]);
+      $em->persist($image);
+      $em->flush();
 
-            return $this->redirectToRoute('app_image');
-        }
-
-        return $this->render('image/new.html.twig', [
-          'form' => $form->createView(),
-        ]);
+      return $this->redirectToRoute('app_image');
     }
+
+    return $this->render('image/new.html.twig', [
+      'form' => $form->createView(),
+    ]);
+  }
+
+  #[Route('/image/remove/{id}', name: 'app_image_remove')]
+  public function remove(
+    Request $request,
+    EntityManagerInterface $em,
+    Image $image
+  ): Response {
+
+    $em->remove($image);
+    $em->flush();
+
+    return $this->redirectToRoute('app_image');
+  }
 }

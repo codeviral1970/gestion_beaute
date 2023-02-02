@@ -34,9 +34,11 @@
 							</a>
 						</li>
 							<li>
-							<a class="nav-link " href="{{path('app_image_edit', {'id': app.user.id})}}">
+							{% if app.user.userAvatar is not null %}
+							<a class="nav-link " href="{{path('app_image_edit', {'id': app.user.userAvatar.id})}}">
 								<i class="bi bi-emoji-heart-eyes"></i><span>Modifier mon avatar</span>
 							</a>
+							{% endif %}
 						</li>
 					</ul>
 				</li><!-- End image Nav -->
