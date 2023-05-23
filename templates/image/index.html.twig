@@ -27,7 +27,14 @@
                 {% endif %}
                 </td>
             <td><img src="{{ vich_uploader_asset(img) | imagine_filter('profile') }}" alt=""></td>
-            <td><a href="{{path('app_image_remove', {'id':img.id})}}">Remove</a></td>
+
+            <td>
+                {% if img.user is not null %}
+                    <p>Pas de modification possible</p>
+                {% else %}
+                <a href="{{path('app_image_remove', {'id':img.id})}}">Remove</a>
+                {% endif %}
+            </td>
             </tr>
             {% endfor %}
         </tbody>
